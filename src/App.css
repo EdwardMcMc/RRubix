@@ -1,0 +1,97 @@
+.App {
+  text-align: center;
+}
+
+
+.App-header {
+  background-color: #303030;
+  min-height: 5vh;
+  min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: calc(px + 2vmin);
+  color: white;
+}
+
+.App-body{
+  background-color: #282c34;
+  min-height: 80vh;
+  min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.g,.w,.o,.y,.r,.b{
+  width: 6vw;
+  height: 6vw;
+}
+
+.g, .cg,.cug{
+  background: #00ff00;
+
+}
+
+.w, .cw,.cuw{
+  background: #ffffff;
+
+}
+.o, .co,.cuo{
+  background: #ff5e00;
+}
+.y, .cy,.cuy{
+  background: #ffff00;
+
+}
+.r, .cr,.cur{
+  background: #ff0000;
+}
+
+.b, .cb,.cub{
+  background: #0000ff;
+}
+
+.cg,.cw,.co,.cy,.cr,.cb{
+  
+  width: 15vw;
+  height: 15vw;
+  border:0.5pc solid black;
+  border-radius: 3vw;
+}
+.cug,.cuw,.cuo,.cuy,.cur,.cub{
+  width: 13vw;
+  height: 13vw;
+  border-radius: 3vw;
+}
+
+
+
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+  .g,.w,.o,.y,.r,.b{
+    width: 6pc;
+    height: 6pc;
+  }
+  .cg,.cw,.co,.cy,.cr,.cb{
+  
+    width: 10pc;
+    height: 10pc;
+    border:0.5pc solid black;
+    border-radius: 3pc;
+  }
+  .cug,.cuw,.cuo,.cuy,.cur,.cub{
+    width: 9pc;
+    height: 9pc;
+    border-radius: 3pc;
+  }
+
+}
