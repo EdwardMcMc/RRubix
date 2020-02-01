@@ -19,22 +19,4 @@ jobs:
     #- run: npm test
       env:
         CI: true
-  
-  
-  FTP-Deploy-Action:
-    name: FTP Deploy
-    runs-on: [ubuntu-latest]
-    steps:
-      - uses: actions/checkout@master
-      - name: FTP-Deploy-Action
-      - uses: SamKirkland/FTP-Deploy-Action@2.0.0
-        env:
-          # FTP server name (you may need to specify a port)
-          FTP_SERVER: ftp.ndg.mlh.mybluehost.me
-          # FTP account username
-          FTP_USERNAME: EMcKenize-McHarg@rrubix.site
-          # FTP account password
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-          # The local folder to copy, defaults to root project folder
-          LOCAL_DIR: build 
-         
+   
