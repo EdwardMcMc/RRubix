@@ -28,7 +28,7 @@ jobs:
         # FTP server name (you may need to specify a port)
         ftp_server: rrubix.site
         # FTP account username
-        ftp_username: ${{ secrets.FTP_USERNAME }}
+        ftp_username: EMcKenize-McHarg@rrubix.site
         # FTP account password
         ftp_password: ${{ secrets.FTP_PASSWORD }}
         # The local folder to copy, defaults to root project folder
