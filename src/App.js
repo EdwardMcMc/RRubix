@@ -100,7 +100,7 @@ class App extends React.Component {
           <h1>RRubix</h1>
           
         </header>
-        <body className='App-body'>
+        <body clgitssName='App-body'>
         <Board board={this.state.board}changeColor={this.changeColor}/>
           <ColorPicker selectedColor={this.state.selectedColor} setColor={this.setColor}/>
           {/* <button onClick={this.F()}>F</button> */}
