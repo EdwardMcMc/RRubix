@@ -95,7 +95,7 @@
 
 .boardAndButtons{
   width:100vw;
-  height:75vh;
+  height:70vh;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -107,6 +107,10 @@
   overflow-x: auto;
   border:0.1vmin solid white;
   border-radius: 1vmin;
+}
+
+.mobileNavBarAvoid{
+  height: 5vh;
 }
 
 @media only screen and (min-width: 768px) {
@@ -152,6 +156,11 @@
     border:0 solid white
     
   }
+
+  .mobileNavBarAvoid{
+    height: 0;
+  }
+  
   
 
 }

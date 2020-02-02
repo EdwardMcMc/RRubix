@@ -4,7 +4,7 @@ import Color from './Color'
 
 class ColorPicker extends React.Component {
     render() { 
-      return <div>
+      return <div className='colorPicker'>
         <table>
           <tbody>
             <tr>
@@ -15,6 +15,7 @@ class ColorPicker extends React.Component {
               <td><Color color={this.props.selectedColor==='r'?'r':'ur'} setColor={this.props.setColor}/></td>
               <td><Color color={this.props.selectedColor==='o'?'o':'uo'} setColor={this.props.setColor}/></td>
               </tr>
+              <tr className='mobileNavBarAvoid'></tr>
           </tbody>
         </table>
       </div>;
