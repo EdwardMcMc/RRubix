@@ -102,14 +102,16 @@
   justify-content: center;
 }
 
+.buttonCell{
+  white-space: nowrap;
+  overflow-x: auto;
+  border:0.1vmin solid white;
+  border-radius: 1vmin;
+}
+
 @media only screen and (min-width: 768px) {
   /* For desktop: */
-  .g,.w,.o,.y,.r,.b{
-    width: 8vh;
-    height: 8vh;
-  }
   .cg,.cw,.co,.cy,.cr,.cb{
-  
     width: 10vh;
     height: 10vh;
     border:0.5vh solid black;
@@ -120,10 +122,7 @@
     height: 9vh;
     border-radius: 3vh;
   }
-  .buttonCell{
-    white-space: nowrap;
-    overflow-x: auto;
-  }
+ 
 
   .button{
     width: 8vh;
@@ -148,5 +147,11 @@
     justify-content: center;
     padding-top: 2vmin;
   }
+  .buttonCell{
+    border-radius: 1vmin;
+    border:0 solid white
+    
+  }
+  
 
 }

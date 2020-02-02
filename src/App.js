@@ -268,31 +268,31 @@ class App extends React.Component {
                         </td>
                       </tr>
                       <tr>
-                        <td>
+                        <td className='buttonCell'>
                           <Button function={this.R} text='R'/>
                           <Button function={this.r.bind(this)} text="R'"/>
                         </td>
                       </tr>
                       <tr>
-                        <td>
+                        <td className='buttonCell'>
                         <Button function={this.U} text='U'/>
                         <Button function={this.u.bind(this)} text="U'"/>
                         </td>          
                       </tr>
                       <tr>
-                        <td>
+                        <td className='buttonCell'>
                           <Button function={this.L} text='L'/>
                           <Button function={this.l.bind(this)} text="L'"/>
                         </td>
                       </tr>
                       <tr>
-                        <td>
+                        <td className='buttonCell'>
                           <Button function={this.B} text='B'/>
                           <Button function={this.b.bind(this)} text="B'"/>
                         </td>
                       </tr>
                       <tr>
-                        <td>
+                        <td className='buttonCell'>
                           <Button function={this.D} text='D'/>
                           <Button function={this.d.bind(this)} text="D'"/>
                         </td>
