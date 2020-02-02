@@ -167,10 +167,50 @@ class App extends React.Component {
             <tbody>
               <tr className='boardAndButtons'>
                 <td>
-                  <Button function={this.F} text='F'/>
-                  <Button function={this.f.bind(this)} text="F'"/>
-                  <Button function={this.U} text='U'/>
-                  <Button function={this.u.bind(this)} text="U'"/>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td className='buttonCell'>
+                        <Button function={this.F} text='F'/>
+                        <Button function={this.f.bind(this)} text="F'"/>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <Button text='R'/>
+                          <Button text="R'"/>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                        <Button function={this.U} text='U'/>
+                        <Button function={this.u.bind(this)} text="U'"/>
+                        </td>          
+                      </tr>
+                      <tr>
+                        <td>
+                          <Button text='L'/>
+                          <Button text="L'"/>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <Button text='B'/>
+                          <Button text="B'"/>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <Button text='D'/>
+                          <Button text="D'"/>
+                        </td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+                  
+                  
+                  
                 </td>
                 <td>
                 <Board board={this.state.board}changeColor={this.changeColor}/>  
