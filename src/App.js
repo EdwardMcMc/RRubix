@@ -43,6 +43,17 @@ class App extends React.Component {
     }
     
   }
+  CloneBoard=()=>{
+    let newBoard=[[],[],[],[],[],[],[],[],[]]
+    for(let y=0;y<9;y++)
+    {
+      for(let x=0;x<12;x++)
+      {
+        newBoard[y][x]=this.state.board[y][x]
+      }
+    }
+    return newBoard
+  }
 
   Rotate(board,x,y,clockwise)
   {
@@ -84,15 +95,7 @@ class App extends React.Component {
 
   F=()=>{
     let oldBoard=this.state.board
-    //cloning board (not as a reference)
-    let newBoard=[[],[],[],[],[],[],[],[],[]]
-    for(let y=0;y<9;y++)
-    {
-      for(let x=0;x<12;x++)
-      {
-        newBoard[y][x]=oldBoard[y][x]
-      }
-    }
+    let newBoard=this.CloneBoard();
 
     newBoard[2][3]=oldBoard[5][2]
     newBoard[2][4]=oldBoard[4][2]
@@ -122,19 +125,36 @@ class App extends React.Component {
     this.F();
   } 
 
+  R=()=>{
+    let oldBoard=this.state.board
+    let newBoard=this.CloneBoard();
+    this.Rotate(newBoard,7,4,true)
+    for(let i=0;i<6;i++)
+    {
+      newBoard[i][5]=oldBoard[i+3][5]
+    }
+    newBoard[3][9]=oldBoard[2][5]
+    newBoard[4][9]=oldBoard[1][5]
+    newBoard[5][9]=oldBoard[0][5]
+
+    newBoard[8][5]=oldBoard[3][9]
+    newBoard[7][5]=oldBoard[4][9]
+    newBoard[6][5]=oldBoard[5][9]
+    this.setState({
+      board:newBoard
+    })
+  }
+
+  async r(){
+    await this.R();
+    await this.R();
+    this.R();
+  }
+
   U=()=>{
     let oldBoard=this.state.board
-    //cloning board (not as a reference)
-    let newBoard=[[],[],[],[],[],[],[],[],[]]
-    for(let y=0;y<9;y++)
-    {
-      for(let x=0;x<12;x++)
-      {
-        newBoard[y][x]=oldBoard[y][x]
-      }
-    }
-
-    this.Rotate(newBoard,4,1,true)
+    let newBoard=this.CloneBoard();
+    this.Rotate(newBoard,4,1,true);
     for(let i=0;i<12;i++)
     {
       if(i<9){
@@ -154,6 +174,78 @@ class App extends React.Component {
     await this.U();
     await this.U();
     this.U();
+  }
+
+  L=()=>{
+    let newBoard=this.CloneBoard();
+    let oldBoard=this.state.board
+    this.Rotate(newBoard,1,4,true)
+    for(let i=0;i<6;i++)
+    {
+      newBoard[i+3][3]=oldBoard[i][3]
+    }
+    for(let i=0;i<3;i++)
+    {
+      newBoard[i][3]=oldBoard[5-i][11]
+    }
+    for(let i=0;i<3;i++)
+    {
+      newBoard[5-i][11]=oldBoard[i+6][3]
+    }
+    this.setState({board:newBoard})
+  }
+
+  async l(){
+    await this.L();
+    await this.L();
+    this.L();
+  }
+
+  B=()=>{
+    let oldBoard=this.state.board
+    let newBoard=this.CloneBoard();
+    this.Rotate(newBoard,10,4,true)
+    for(let i=0;i<3;i++){
+      newBoard[0][i+3]=oldBoard[i+3][8]
+    }
+    for(let i=0;i<3;i++){
+      newBoard[i+3][0]=oldBoard[0][5-i]
+    }
+    for(let i=0;i<3;i++){
+      newBoard[8][i+3]=oldBoard[i+3][0]
+    }
+    for(let i=0;i<3;i++){
+      newBoard[i+3][8]=oldBoard[8][5-i]
+    }
+
+    this.setState({board:newBoard})
+  }
+
+  async b(){
+    await this.B();
+    await this.B();
+    this.B();
+  }
+
+  D=()=>{
+    let oldBoard=this.state.board
+    let newBoard=this.CloneBoard();
+    this.Rotate(newBoard,4,7,true)
+    for(let i=0;i<12;i++){
+      if(i<3){
+        newBoard[5][i]=oldBoard[5][i+9]
+      }
+      else{
+        newBoard[5][i]=oldBoard[5][i-3]
+      }
+    }
+    this.setState({board:newBoard})
+  }
+
+  async d(){
+    await this.D();
+    await this.D();
+    this.D();
   }
 
   render(){
@@ -177,8 +269,8 @@ class App extends React.Component {
                       </tr>
                       <tr>
                         <td>
-                          <Button text='R'/>
-                          <Button text="R'"/>
+                          <Button function={this.R} text='R'/>
+                          <Button function={this.r.bind(this)} text="R'"/>
                         </td>
                       </tr>
                       <tr>
@@ -189,20 +281,20 @@ class App extends React.Component {
                       </tr>
                       <tr>
                         <td>
-                          <Button text='L'/>
-                          <Button text="L'"/>
+                          <Button function={this.L} text='L'/>
+                          <Button function={this.l.bind(this)} text="L'"/>
                         </td>
                       </tr>
                       <tr>
                         <td>
-                          <Button text='B'/>
-                          <Button text="B'"/>
+                          <Button function={this.B} text='B'/>
+                          <Button function={this.b.bind(this)} text="B'"/>
                         </td>
                       </tr>
                       <tr>
                         <td>
-                          <Button text='D'/>
-                          <Button text="D'"/>
+                          <Button function={this.D} text='D'/>
+                          <Button function={this.d.bind(this)} text="D'"/>
                         </td>
                       </tr>
                       
