@@ -246,6 +246,7 @@ class App extends React.Component {
 
   async Solve(){
     await this.whitecross();
+    await this.whiteCorners();
   }
 
   async whitecross(){
@@ -269,7 +270,6 @@ class App extends React.Component {
         await this.L();sequence+='L';
         await this.L();sequence+='L';
       }
-    
     
     //move white pices from rear side that aref rear side
     sideChecked=false;
@@ -328,10 +328,11 @@ class App extends React.Component {
           await this.d(); sequence+='d';
         }
         else{
-          await this.B(); sequence+='B'
+          await this.B(); sequence+='B';
         }
       }
       else if( this.state.board[1][3]==='w'||this.state.board[1][5]==='w'|| this.state.board[3][7]==='w'||this.state.board[5][7]==='w'|| this.state.board[7][5]==='w'||this.state.board[7][3]==='w'|| this.state.board[5][1]==='w'||this.state.board[3][1]==='w'){
+        //moving pieces from non rear side to rear side
         if(this.state.board[1][5]==='w'||this.state.board[3][7]==='w'){
           await this.R();sequence+='R';
           await this.B();sequence+='B';
@@ -357,17 +358,184 @@ class App extends React.Component {
         sideChecked=true;
       }
     }
-    if(this.opstimiseSequence(sequence)===sequence){
-      console.log("Optimized: "+sequence);
+    // if(this.opstimiseSequence(sequence)===sequence){
+    //   console.log("Optimized: "+sequence);
+    // }
+    // else{
+    //   if(sequence!==''){
+    //     console.log(sequence)
+    //     console.log("Optimized: "+this.opstimiseSequence(sequence));
+    //   }
+    // }
+    console.log(sequence);
+  }
+
+async whiteCorners(){
+  let sideChecked=false;
+  let sequence='';
+  
+  while(!sideChecked){
+    //moving white corners that are incorectly oriented to rear side
+    if((this.state.board[3][2]==='w'||this.state.board[2][3]==='w')||(this.state.board[3][3]==='w'&&this.state.board[2][3]!=='g')){
+      await this.l(); sequence+='l';
+      await this.B(); sequence+='B';
+      await this.L(); sequence+='L';
+      await this.B(); sequence+='B';
+    }
+    else if((this.state.board[2][5]==='w'||this.state.board[3][6]==='w')||(this.state.board[3][5]==='w'&&this.state.board[2][5]!=='g')){
+      await this.u(); sequence+='u';
+      await this.B(); sequence+='B';
+      await this.U(); sequence+='U';
+      await this.B(); sequence+='B';
+    }
+    else if((this.state.board[5][6]==='w'||this.state.board[6][5]==='w')||(this.state.board[5][5]==='w'&&this.state.board[6][5]!=='b')){
+      await this.r(); sequence+='r';
+      await this.B(); sequence+='B';
+      await this.R(); sequence+='R';
+      await this.B(); sequence+='B';
+    }
+    else if((this.state.board[6][3]==='w'||this.state.board[5][2]==='w')||(this.state.board[5][3]==='w'&&this.state.board[6][3]!=='b')){
+      await this.d(); sequence+='d';
+      await this.B(); sequence+='B';
+      await this.D(); sequence+='D';
+      await this.B(); sequence+='B';
     }
     else{
-      if(sequence!==''){
-        console.log(sequence)
-        console.log("Optimized: "+this.opstimiseSequence(sequence));
+      sideChecked=true;
+    }
+  }
+
+  
+  sideChecked=false;
+  while(!sideChecked){
+    //moving white corner pieces facing rear into place
+    if(this.state.board[3][9]==='w'||this.state.board[3][11]==='w'||this.state.board[5][9]==='w'||this.state.board[5][11]==='w'){
+      if(this.state.board[3][11]==='w'&&this.state.board[3][0]==='g'){
+        await this.l();sequence+='l';
+        await this.B();sequence+='B';
+        await this.B();sequence+='B';
+        await this.L();sequence+='L';
+        await this.B();sequence+='B';
+        await this.l();sequence+='l';
+        await this.b();sequence+='b';
+        await this.L();sequence+='L';
+      }
+      else if(this.state.board[3][9]==='w'&&this.state.board[0][5]==='o'){
+        await this.u();sequence+='u';
+        await this.B();sequence+='B';
+        await this.B();sequence+='B';
+        await this.U();sequence+='U';
+        await this.B();sequence+='B';
+        await this.u();sequence+='u';
+        await this.b();sequence+='b';
+        await this.U();sequence+='U';
+      }
+      else if(this.state.board[5][9]==='w'&&this.state.board[5][8]==='b'){
+        await this.r();sequence+='r';
+        await this.B();sequence+='B';
+        await this.B();sequence+='B';
+        await this.R();sequence+='R';
+        await this.B();sequence+='B';
+        await this.r();sequence+='r';
+        await this.b();sequence+='b';
+        await this.R();sequence+='R';
+      }
+      else if(this.state.board[5][11]==='w'&&this.state.board[8][3]==='r'){
+        await this.d();sequence+='d';
+        await this.B();sequence+='B';
+        await this.B();sequence+='B';
+        await this.D();sequence+='D';
+        await this.B();sequence+='B';
+        await this.d();sequence+='d';
+        await this.b();sequence+='b';
+        await this.D();sequence+='D';
+      }
+      else{
+        await this.B(); sequence+='B';
       }
     }
-    
+    // moving 1st half of side facing corner pieces into place
+    else if(this.state.board[3][0]==='w'||this.state.board[0][5]==='w'||this.state.board[5][8]==='w'||this.state.board[8][3]==='w'){
+      if(this.state.board[3][0]==='w'&&this.state.board[0][3]==='g')
+      {
+        await this.l();sequence+='l';
+        await this.b();sequence+='b';
+        await this.L();sequence+='L';
+      }
+      else if(this.state.board[0][5]==='w'&&this.state.board[3][8]==='o')
+      {
+        await this.u();sequence+='u';
+        await this.b();sequence+='b';
+        await this.U();sequence+='U';
+      }
+      else if(this.state.board[5][8]==='w'&&this.state.board[8][5]==='b')
+      {
+        await this.r();sequence+='r';
+        await this.b();sequence+='b';
+        await this.R();sequence+='R';
+      }
+      else if(this.state.board[8][3]==='w'&&this.state.board[5][0]==='r')
+      {
+        await this.d();sequence+='d';
+        await this.b();sequence+='b';
+        await this.D();sequence+='D';
+      }
+      else{
+        await this.B();sequence+='B'
+      }
+    }
+    //moving 2nd half of side facing corner pieces into place
+    else if(this.state.board[0][3]==='w'||this.state.board[3][8]==='w'||this.state.board[8][5]==='w'||this.state.board[5][0]==='w'){
+      if(this.state.board[0][3]==='w'&&this.state.board[3][0]==='r')
+      {
+        await this.U();sequence+='U';
+        await this.B();sequence+='B';
+        await this.u();sequence+='u';
+      }
+      else if(this.state.board[3][8]==='w'&&this.state.board[0][5]==='g')
+      {
+        await this.R();sequence+='R';
+        await this.B();sequence+='B';
+        await this.r();sequence+='r';
+      }
+      else if(this.state.board[8][5]==='w'&&this.state.board[5][8]==='o')
+      {
+        await this.D();sequence+='D';
+        await this.B();sequence+='B';
+        await this.d();sequence+='d';
+      }
+      else if(this.state.board[5][0]==='w'&&this.state.board[8][3]==='b')
+      {
+        await this.L();sequence+='L';
+        await this.B();sequence+='B';
+        await this.l();sequence+='l';
+      }
+
+      else{
+        await this.B();sequence+='B'
+      }
+    }
+    else{
+      sideChecked=true;
+    }
   }
+
+ 
+
+  // if(this.opstimiseSequence(sequence)===sequence){
+  //   console.log("Optimized: "+sequence);
+  // }
+  // else{
+  //   if(sequence!==''){
+  //     console.log(sequence)
+  //     console.log("Optimized: "+this.opstimiseSequence(sequence));
+  //   }
+  // }
+  console.log(sequence);
+
+  
+}
+
 
 
 
@@ -381,7 +549,7 @@ class App extends React.Component {
       {
         //i uppercase
         if(seq[i+1]!==undefined){
-          if(seq[i+1]===seq[i+1].toUpperCase()){
+          if(seq[i+1]===seq[i]){
             //i & i+1 uppercase
             if(seq[i+2]!==undefined&&seq[i]===seq[i+2]){
             //3 in a row
@@ -397,7 +565,7 @@ class App extends React.Component {
       else{
         //i lower case
         if(seq[i+1]!==undefined){
-          if(seq[i+1]===seq[i+1].toLowerCase()){
+          if(seq[i+1]===seq[i]){
             //i & i+1 lowercase
             if(seq[i+2]!==undefined&&seq[i]===seq[i+2]){
             //3 in a row
