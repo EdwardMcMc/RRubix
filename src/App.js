@@ -254,19 +254,19 @@ class App extends React.Component {
     let sequence=''
 
     //move white side pieces that are oriented wrong
-      if(this.state.board[2][4]==='w'){
+      if(this.state.board[2][4]==='w'||(this.state.board[3][4]==='w'&&this.state.board[2][4]!=='g')){
         await this.U();sequence+='U';
         await this.U();sequence+='U';
       }
-      if(this.state.board[4][6]==='w'){
+      if(this.state.board[4][6]==='w'||(this.state.board[4][5]==='w'&&this.state.board[4][6]!=='o')){
         await this.R();sequence+='R';
         await this.R();sequence+='R';
       }
-      if(this.state.board[6][4]==='w'){
+      if(this.state.board[6][4]==='w'||(this.state.board[5][4]==='w'&&this.state.board[6][4]!=='b')){
         await this.D();sequence+='D';
         await this.D();sequence+='D';
       }
-      if(this.state.board[4][2]==='w'){
+      if(this.state.board[4][2]==='w'||(this.state.board[4][3]==='w'&&this.state.board[4][2]!=='r')){
         await this.L();sequence+='L';
         await this.L();sequence+='L';
       }
@@ -588,6 +588,9 @@ async whiteCorners(){
       <div className="App">
         <header className="App-header">
           RRubix
+          <div className='Sub-App-Header'>
+            RRubix is still in development, sit tight!
+          </div>
         </header>
         <div className='App-body'>
           <table>

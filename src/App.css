@@ -17,6 +17,11 @@
   color: white;
   font-weight: bold;
 }
+.Sub-App-Header{
+  font-size: 3vmin;
+  font-weight: normal;
+  font-family: 'Courier New', Courier, monospace;
+}
 
 .App-body{
   background-color: #282c34;
@@ -79,8 +84,8 @@
 }
 
 .button{
-  width: 5vh;
-  height: 5vh;
+  width: 4.5vh;
+  height: 4.5vh;
   border-radius: 0.5vh;
   border:0.3vmin solid black;
   background:white;
@@ -94,8 +99,8 @@
 }
 
 .solvebutton{
-    width: 5vh;
-    height: 5vh;
+    width: 4.5vh;
+    height: 4.5vh;
     border-radius: 0.5vh;
     border:0.3vmin solid black;
     background:green;
@@ -142,6 +147,9 @@
     border-radius: 3vh;
   }
  
+  .Sub-App-Header{
+    font-size: calc(1vmin);
+  }
 
   .button{
     width: 8vh;
