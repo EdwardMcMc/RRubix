@@ -361,8 +361,10 @@ class App extends React.Component {
       console.log("Optimized: "+sequence);
     }
     else{
-    console.log(sequence)
-    console.log("Optimized: "+this.opstimiseSequence(sequence));
+      if(sequence!==''){
+        console.log(sequence)
+        console.log("Optimized: "+this.opstimiseSequence(sequence));
+      }
     }
     
   }
