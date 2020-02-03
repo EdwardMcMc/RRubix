@@ -27,19 +27,15 @@ class App extends React.Component {
   }
 
   changeColor = (x,y) => {
-    console.log('change color')
     let newBoard=this.state.board
-    console.log('newboard')
     newBoard[y][x]=this.state.selectedColor
     this.setState({board:newBoard})
-    console.log('stateset');
   }
 
   setColor =(setColor) =>{
     if(setColor!==undefined)
     {
       this.setState({selectedColor:setColor})
-    console.log('set:'+setColor+'selec:'+this.state.selectedColor)
     }
     
   }
@@ -122,7 +118,7 @@ class App extends React.Component {
   async f(){
     await this.F();
     await this.F();
-    this.F();
+    await this.F();
   } 
 
   R=()=>{
@@ -148,7 +144,7 @@ class App extends React.Component {
   async r(){
     await this.R();
     await this.R();
-    this.R();
+    await this.R();
   }
 
   U=()=>{
@@ -173,7 +169,7 @@ class App extends React.Component {
   async u(){
     await this.U();
     await this.U();
-    this.U();
+    await this.U();
   }
 
   L=()=>{
@@ -198,7 +194,7 @@ class App extends React.Component {
   async l(){
     await this.L();
     await this.L();
-    this.L();
+    await this.L();
   }
 
   B=()=>{
@@ -224,7 +220,7 @@ class App extends React.Component {
   async b(){
     await this.B();
     await this.B();
-    this.B();
+    await this.B();
   }
 
   D=()=>{
@@ -245,7 +241,176 @@ class App extends React.Component {
   async d(){
     await this.D();
     await this.D();
-    this.D();
+    await this.D();
+  }
+
+  async Solve(){
+    await this.whitecross();
+  }
+
+  async whitecross(){
+    let sideChecked=false
+    let sequence=''
+
+    //move white side pieces that are oriented wrong
+      if(this.state.board[2][4]==='w'){
+        await this.U();sequence+='U';
+        await this.U();sequence+='U';
+      }
+      if(this.state.board[4][6]==='w'){
+        await this.R();sequence+='R';
+        await this.R();sequence+='R';
+      }
+      if(this.state.board[6][4]==='w'){
+        await this.D();sequence+='D';
+        await this.D();sequence+='D';
+      }
+      if(this.state.board[4][2]==='w'){
+        await this.L();sequence+='L';
+        await this.L();sequence+='L';
+      }
+    
+    
+    //move white pices from rear side that aref rear side
+    sideChecked=false;
+    while(!sideChecked)
+    {
+
+      if( this.state.board[4][9]==='w'|| this.state.board[3][10]==='w'|| this.state.board[4][11]==='w'|| this.state.board[5][10]==='w'){
+        if( this.state.board[4][9]==='w'&& this.state.board[4][8]==='o')
+        {
+            await this.R(); sequence+='R';
+            await this.R(); sequence+='R';
+        }
+        else if( this.state.board[3][10]==='w'&& this.state.board[0][4]==='g')
+        {
+          await this.U(); sequence+='U';
+          await this.U(); sequence+='U';
+        }
+        else if( this.state.board[4][11]==='w'&& this.state.board[4][0]==='r'){
+          await this.L(); sequence+='L';
+          await this.L(); sequence+='L';
+        }
+        else if( this.state.board[5][10]==='w'&& this.state.board[8][4]==='b')
+        {
+          await this.D(); sequence+='D';
+          await this.D(); sequence+='D';
+        }
+        else{
+          await this.B(); sequence+='B';
+        }
+      }
+
+    //checking rear side for white pieces facing non-rear sides
+      else if( this.state.board[4][8]==='w'|| this.state.board[0][4]==='w'|| this.state.board[4][0]==='w'|| this.state.board[8][4]==='w'){
+        if(this.state.board[4][8]==='w'&&this.state.board[4][9]==='b')
+        {
+          await this.R(); sequence+='R';
+          await this.d(); sequence+='d';
+          await this.r(); sequence+='r';
+        }
+        else if(this.state.board[0][4]==='w'&&this.state.board[3][10]==='o')
+        {
+          await this.U(); sequence+='U';
+          await this.r(); sequence+='r';
+          await this.u(); sequence+='u';
+        }
+        else if(this.state.board[4][0]==='w'&&this.state.board[4][11]==='g')
+        {
+          await this.L(); sequence+='L';
+          await this.u(); sequence+='u';
+          await this.l(); sequence+='l';
+        }
+        else if(this.state.board[8][4]==='w'&&this.state.board[5][10]==='r')
+        {
+          await this.D(); sequence+='D';
+          await this.l(); sequence+='l';
+          await this.d(); sequence+='d';
+        }
+        else{
+          await this.B(); sequence+='B'
+        }
+      }
+      else if( this.state.board[1][3]==='w'||this.state.board[1][5]==='w'|| this.state.board[3][7]==='w'||this.state.board[5][7]==='w'|| this.state.board[7][5]==='w'||this.state.board[7][3]==='w'|| this.state.board[5][1]==='w'||this.state.board[3][1]==='w'){
+        if(this.state.board[1][5]==='w'||this.state.board[3][7]==='w'){
+          await this.R();sequence+='R';
+          await this.B();sequence+='B';
+          await this.r();sequence+='r';
+        }
+         else if(this.state.board[5][7]==='w'||this.state.board[7][5]==='w'){
+          await this.D();sequence+='D';
+          await this.B();sequence+='B';
+          await this.d();sequence+='d';
+        }
+        else if(this.state.board[7][3]==='w'||this.state.board[5][1]==='w'){
+          await this.L();sequence+='L';
+          await this.B();sequence+='B';
+          await this.l();sequence+='l';
+        }
+        else if(this.state.board[3][1]==='w'||this.state.board[1][3]==='w'){
+          await this.U();sequence+='U';
+          await this.B();sequence+='B';
+          await this.u();sequence+='u';
+        } 
+      }
+      else{
+        sideChecked=true;
+      }
+    }
+    if(this.opstimiseSequence(sequence)===sequence){
+      console.log("Optimized: "+sequence);
+    }
+    else{
+    console.log(sequence)
+    console.log("Optimized: "+this.opstimiseSequence(sequence));
+    }
+    
+  }
+
+
+
+  // 3 moves in a row is the same as that move backwards
+  // one move then another in the opposite direction is the same as no movement
+  // this function replaces 3 moves with 1 move and removes useless moves 
+  opstimiseSequence(seq){
+    for(let i=0;i<seq.length;i++)
+    {
+      if(seq[i]===seq[i].toUpperCase())
+      {
+        //i uppercase
+        if(seq[i+1]!==undefined){
+          if(seq[i+1]===seq[i+1].toUpperCase()){
+            //i & i+1 uppercase
+            if(seq[i+2]!==undefined&&seq[i]===seq[i+2]){
+            //3 in a row
+              seq=seq.slice(0,i-1)+seq[i].toLowerCase()+seq.slice(i+3,seq.length)
+            }
+          }
+          else if(seq[i+1]===seq[i].toLowerCase()){
+            //i uppercase i+1 lowercase
+            seq=seq.slice(0,i)+seq.slice(i+2,seq.length);
+          }         
+        }
+      }
+      else{
+        //i lower case
+        if(seq[i+1]!==undefined){
+          if(seq[i+1]===seq[i+1].toLowerCase()){
+            //i & i+1 lowercase
+            if(seq[i+2]!==undefined&&seq[i]===seq[i+2]){
+            //3 in a row
+              seq=seq.slice(0,i-1)+seq[i].toUpperCase()+seq.slice(i+3,seq.length)
+            }
+          }
+          else if(seq[i+1]===seq[i].toUpperCase()){
+            //i lowercase i+1 uppercase
+            seq=seq.slice(0,i)+seq.slice(i+2,seq.length);
+          }         
+        }
+      }
+
+    }
+    return seq;
   }
 
   render(){
@@ -254,7 +419,7 @@ class App extends React.Component {
         <header className="App-header">
           RRubix
         </header>
-        <body className='App-body'>
+        <div className='App-body'>
           <table>
             <tbody>
               <tr className='boardAndButtons'>
@@ -297,12 +462,10 @@ class App extends React.Component {
                           <Button function={this.d.bind(this)} text="D'"/>
                         </td>
                       </tr>
+                      <tr><td colSpan='2'><Button function={this.Solve.bind(this)} text='Solve' solve='solve'/></td></tr>
                       
                     </tbody>
                   </table>
-                  
-                  
-                  
                 </td>
                 <td>
                 <Board board={this.state.board}changeColor={this.changeColor}/>  
@@ -311,7 +474,7 @@ class App extends React.Component {
             </tbody>
           </table>
           <ColorPicker selectedColor={this.state.selectedColor} setColor={this.setColor}/>
-        </body>
+        </div>
       </div>
     );
   }

@@ -28,7 +28,7 @@
   align-items: center;
   justify-content: flex-start;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: black;
 }
 
 .App-link {
@@ -93,6 +93,21 @@
   font-weight: bolder;
 }
 
+.solvebutton{
+    width: 5vh;
+    height: 5vh;
+    border-radius: 0.5vh;
+    border:0.3vmin solid black;
+    background:green;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 3vmin;
+    font-weight: bolder;
+}
+
 .boardAndButtons{
   width:100vw;
   height:70vh;
@@ -142,6 +157,21 @@
     font-size: calc(10px + 2vmin);
     font-weight: bolder;
   }
+
+  .solvebutton{
+    width: 18vh;
+    height: 8vh;
+    border-radius: 0.5vh;
+    border:0.4vmin solid black;
+    background:grey;
+    color: black;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    font-weight: bolder;
+}
   .boardAndButtons{
     width:50vw;
     height:75vh;
