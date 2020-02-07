@@ -245,11 +245,64 @@ class App extends React.Component {
   }
 
   async Solve(){
-    await this.whitecross();
-    await this.whiteCorners();
+    if (await this.verifyCube()){
+      await this.whiteCross();
+      await this.whiteCorners();
+      await this.middleEdges();
+    }
   }
 
-  async whitecross(){
+  async verifyCube(){
+    let w=0;
+    let g=0;
+    let o=0;
+    let b=0;
+    let r=0;
+    let y=0;
+    for(let i=0;i<9;i++)
+    {
+      for(let j=0;j<12;j++)
+      {
+        switch(this.state.board[i][j])
+        {
+          case 'w':
+            w+=1;
+            break;
+          case 'g':
+            g+=1;
+            break;
+          case 'o':
+            o+=1;
+            break;
+          case 'b':
+            b+=1;
+            break;
+          case 'r':
+            r+=1;
+            break;
+          case 'y':
+            y+=1;
+            break;
+          default:
+            break;
+        }
+      }
+    }
+    if(w===9&&g===9&&o===9&&b===9&&r===9&&y===9)
+    {
+      console.log('cube validated');
+      return true;
+    }
+    else{
+      console.log(w+' '+g+' '+o+' '+b+' '+r+' '+y)
+      console.log("cube validation failed")
+      return false;
+    }
+    
+    
+  }
+
+  async whiteCross(){
     let sideChecked=false
     let sequence=''
 
@@ -358,16 +411,7 @@ class App extends React.Component {
         sideChecked=true;
       }
     }
-    // if(this.opstimiseSequence(sequence)===sequence){
-    //   console.log("Optimized: "+sequence);
-    // }
-    // else{
-    //   if(sequence!==''){
-    //     console.log(sequence)
-    //     console.log("Optimized: "+this.opstimiseSequence(sequence));
-    //   }
-    // }
-    console.log(sequence);
+    this.logOptimisedSequence(sequence);
   }
 
 async whiteCorners(){
@@ -519,21 +563,173 @@ async whiteCorners(){
       sideChecked=true;
     }
   }
+  this.logOptimisedSequence(sequence); 
+}
 
- 
+async middleEdges(){
+  let sideChecked=false;
+  let sequence='';
 
-  // if(this.opstimiseSequence(sequence)===sequence){
-  //   console.log("Optimized: "+sequence);
-  // }
-  // else{
-  //   if(sequence!==''){
-  //     console.log(sequence)
-  //     console.log("Optimized: "+this.opstimiseSequence(sequence));
-  //   }
-  // }
-  console.log(sequence);
-
-  
+  while(!sideChecked){
+    if(
+      (this.state.board[0][4]!=='y'&&this.state.board[3][10]!=='y')||
+      (this.state.board[4][0]!=='y'&&this.state.board[4][11]!=='y')||
+      (this.state.board[8][4]!=='y'&&this.state.board[5][10]!=='y')||
+      (this.state.board[4][8]!=='y'&&this.state.board[4][9]!=='y')
+      ){
+        if(this.state.board[0][4]==='g'&&this.state.board[3][10]!=='y')
+        {
+          if (this.state.board[3][10]==='r')
+          {
+            await this.b(); sequence+='b';
+            await this.l(); sequence+='l';
+            await this.B(); sequence+='B';
+            await this.L(); sequence+='L';
+            await this.B(); sequence+='B';
+            await this.U(); sequence+='U';
+            await this.b(); sequence+='b';
+            await this.u(); sequence+='u';
+          }
+          else if (this.state.board[3][10]==='o')
+          {
+            await this.B(); sequence+='B';
+            await this.R(); sequence+='R';
+            await this.b(); sequence+='b';
+            await this.r(); sequence+='r';
+            await this.b(); sequence+='b';
+            await this.u(); sequence+='u';
+            await this.B(); sequence+='B';
+            await this.U(); sequence+='U';
+          }
+        }
+        else if(this.state.board[4][8]==='o'&&this.state.board[4][9]!=='y')
+        {
+          if(this.state.board[4][9]==='g')
+          {
+            await this.b(); sequence+='b';
+            await this.u(); sequence+='u';
+            await this.B(); sequence+='B';
+            await this.U(); sequence+='U';
+            await this.B(); sequence+='B';
+            await this.R(); sequence+='R';
+            await this.b(); sequence+='b';
+            await this.r(); sequence+='r';
+          }
+          else if(this.state.board[4][9]==='b')
+          {
+            await this.B(); sequence+='B';
+            await this.D(); sequence+='D';
+            await this.b(); sequence+='b';
+            await this.d(); sequence+='d';
+            await this.b(); sequence+='b';
+            await this.r(); sequence+='r';
+            await this.B(); sequence+='B';
+            await this.R(); sequence+='R';
+          }
+        }
+        else if(this.state.board[8][4]==='b'&&this.state.board[5][10]!=='y')
+        {
+          if(this.state.board[5][10]==='o')
+          {
+            await this.b(); sequence+='b';
+            await this.r(); sequence+='r';
+            await this.B(); sequence+='B';
+            await this.R(); sequence+='R';
+            await this.B(); sequence+='B';
+            await this.D(); sequence+='D';
+            await this.b(); sequence+='b';
+            await this.d(); sequence+='d';
+          }
+          else if(this.state.board[5][10]==='r')
+          {
+            await this.B(); sequence+='B';
+            await this.L(); sequence+='L';
+            await this.b(); sequence+='b';
+            await this.l(); sequence+='l';
+            await this.b(); sequence+='b';
+            await this.d(); sequence+='d';
+            await this.B(); sequence+='B';
+            await this.D(); sequence+='D';
+          }
+        }
+        else if(this.state.board[4][0]==='r'&&this.state.board[4][11]!=='y')
+        {
+          if(this.state.board[4][11]==='b')
+          {
+            await this.b(); sequence+='b';
+            await this.d(); sequence+='d';
+            await this.B(); sequence+='B';
+            await this.D(); sequence+='D';
+            await this.B(); sequence+='B';
+            await this.L(); sequence+='L';
+            await this.b(); sequence+='b';
+            await this.l(); sequence+='l';
+          }
+          else if(this.state.board[4][11]==='g')
+          {
+            await this.B(); sequence+='B';
+            await this.U(); sequence+='U';
+            await this.b(); sequence+='b';
+            await this.u(); sequence+='u';
+            await this.b(); sequence+='b';
+            await this.l(); sequence+='l';
+            await this.B(); sequence+='B';
+            await this.L(); sequence+='L';
+          }
+        }
+        else{
+          await this.B();sequence+='B';
+        }
+    }
+    else if(this.state.board[1][5]!=='g'||this.state.board[3][7]!=='o')
+    {
+      await this.B(); sequence+='B';
+      await this.R(); sequence+='R';
+      await this.b(); sequence+='b';
+      await this.r(); sequence+='r';
+      await this.b(); sequence+='b';
+      await this.u(); sequence+='u';
+      await this.B(); sequence+='B';
+      await this.U(); sequence+='U';
+    }
+    else if(this.state.board[5][7]!=='o'||this.state.board[7][5]!=='b')
+    {
+      await this.B(); sequence+='B';
+      await this.D(); sequence+='D';
+      await this.b(); sequence+='b';
+      await this.d(); sequence+='d';
+      await this.b(); sequence+='b';
+      await this.r(); sequence+='r';
+      await this.B(); sequence+='B';
+      await this.R(); sequence+='R';
+    }
+    else if(this.state.board[7][3]!=='b'||this.state.board[5][1]!=='r')
+    {
+      await this.B(); sequence+='B';
+      await this.L(); sequence+='L';
+      await this.b(); sequence+='b';
+      await this.l(); sequence+='l';
+      await this.b(); sequence+='b';
+      await this.d(); sequence+='d';
+      await this.B(); sequence+='B';
+      await this.D(); sequence+='D';
+    }
+    else if(this.state.board[3][1]!=='r'||this.state.board[1][3]!=='g')
+    {
+      await this.B(); sequence+='B';
+      await this.U(); sequence+='U';
+      await this.b(); sequence+='b';
+      await this.u(); sequence+='u';
+      await this.b(); sequence+='b';
+      await this.l(); sequence+='l';
+      await this.B(); sequence+='B';
+      await this.L(); sequence+='L';
+    }
+    else{
+      sideChecked=true;
+    }
+  }
+  this.logOptimisedSequence(sequence)
 }
 
 
@@ -542,7 +738,7 @@ async whiteCorners(){
   // 3 moves in a row is the same as that move backwards
   // one move then another in the opposite direction is the same as no movement
   // this function replaces 3 moves with 1 move and removes useless moves 
-  opstimiseSequence(seq){
+  logOptimisedSequence(seq){
     for(let i=0;i<seq.length;i++)
     {
       if(seq[i]===seq[i].toUpperCase())
@@ -553,7 +749,7 @@ async whiteCorners(){
             //i & i+1 uppercase
             if(seq[i+2]!==undefined&&seq[i]===seq[i+2]){
             //3 in a row
-              seq=seq.slice(0,i-1)+seq[i].toLowerCase()+seq.slice(i+3,seq.length)
+              seq=seq.slice(0,i)+seq[i].toLowerCase()+seq.slice(i+3,seq.length)
             }
           }
           else if(seq[i+1]===seq[i].toLowerCase()){
@@ -569,7 +765,7 @@ async whiteCorners(){
             //i & i+1 lowercase
             if(seq[i+2]!==undefined&&seq[i]===seq[i+2]){
             //3 in a row
-              seq=seq.slice(0,i-1)+seq[i].toUpperCase()+seq.slice(i+3,seq.length)
+              seq=seq.slice(0,i)+seq[i].toUpperCase()+seq.slice(i+3,seq.length)
             }
           }
           else if(seq[i+1]===seq[i].toUpperCase()){
@@ -580,7 +776,7 @@ async whiteCorners(){
       }
 
     }
-    return seq;
+    console.log(seq);
   }
 
   render(){
