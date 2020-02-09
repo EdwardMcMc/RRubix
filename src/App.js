@@ -249,6 +249,7 @@ class App extends React.Component {
       await this.whiteCross();
       await this.whiteCorners();
       await this.middleEdges();
+      await this.yellowEdges();
     }
   }
 
@@ -731,6 +732,102 @@ async middleEdges(){
   }
   this.logOptimisedSequence(sequence)
 }
+
+async yellowEdges(){
+  let sideChecked=false;
+  let sequence='';
+while(!sideChecked){
+  if(this.state.board[3][10]!=='y'||this.state.board[4][11]!=='y'||this.state.board[5][10]!=='y'||this.state.board[4][9]!=='y')
+  {
+    if(
+      (this.state.board[3][10]!=='y'&&this.state.board[4][11]!=='y'&&this.state.board[5][10]!=='y'&&this.state.board[4][9]!=='y')||
+      (this.state.board[4][11]==='y'&&this.state.board[5][10]==='y')||
+      (this.state.board[4][9]==='y'&&this.state.board[4][11]==='y'))
+    {
+      await this.U();sequence+='U';
+      await this.B();sequence+='B';
+      await this.R();sequence+='R';
+      await this.b();sequence+='b';
+      await this.r();sequence+='r';
+      await this.u();sequence+='u';
+    }
+    else{
+        await this.B();sequence+='B'
+    }
+  }
+  else
+  {
+    sideChecked=true
+  }
+}
+
+sideChecked=false;
+while(!sideChecked)
+{
+if(this.state.board[0][4]!=='g'||this.state.board[4][0]!=='r'||this.state.board[8][4]!=='b'||this.state.board[4][8]!=='o'){
+  if(this.state.board[0][4]!=='g'&&this.state.board[4][0]!=='r'&&this.state.board[8][4]!=='b'&&this.state.board[4][8]!=='o')
+  {await this.B();sequence+='B';}
+  else
+  {if(this.state.board[0][4]!=='g')
+  {
+    await this.R();sequence+='R'
+    await this.B();sequence+='B'
+    await this.r();sequence+='r'
+    await this.B();sequence+='B'
+    await this.R();sequence+='R'
+    await this.B();sequence+='B'
+    await this.B();sequence+='B'
+    await this.r();sequence+='r'
+    await this.B();sequence+='B'
+  }
+  if(this.state.board[4][0]!=='r')
+  {
+    await this.U();sequence+='U'
+    await this.B();sequence+='B'
+    await this.u();sequence+='u'
+    await this.B();sequence+='B'
+    await this.U();sequence+='U'
+    await this.B();sequence+='B'
+    await this.B();sequence+='B'
+    await this.u();sequence+='u'
+    await this.B();sequence+='B'
+  }
+  if(this.state.board[8][4]!=='b')
+  {
+    await this.L();sequence+='L'
+    await this.B();sequence+='B'
+    await this.l();sequence+='l'
+    await this.B();sequence+='B'
+    await this.L();sequence+='L'
+    await this.B();sequence+='B'
+    await this.B();sequence+='B'
+    await this.l();sequence+='l'
+    await this.B();sequence+='B'
+  }
+  if(this.state.board[4][8]!=='o')
+  {
+    await this.D();sequence+='D'
+    await this.B();sequence+='B'
+    await this.d();sequence+='d'
+    await this.B();sequence+='B'
+    await this.D();sequence+='D'
+    await this.B();sequence+='B'
+    await this.B();sequence+='B'
+    await this.d();sequence+='d'
+    await this.B();sequence+='B'
+  }}
+  
+}
+else
+{
+sideChecked=true;
+}
+  
+}
+this.logOptimisedSequence(sequence)
+}
+
+
 
 
 
