@@ -250,6 +250,7 @@ class App extends React.Component {
       await this.whiteCorners();
       await this.middleEdges();
       await this.yellowEdges();
+      await this.yellowCorners();
     }
   }
 
@@ -827,10 +828,226 @@ sideChecked=true;
 this.logOptimisedSequence(sequence)
 }
 
+async cornerMove(){
+await this.r();
+await this.f();
+await this.R();
+await this.F();
+await this.r();
+await this.f();
+await this.R();
+await this.F();
+}
 
+async cornerMoveReverse(){
+  await this.f();
+  await this.r();
+  await this.F();
+  await this.R();
+  await this.f();
+  await this.r();
+  await this.F();
+  await this.R();
+}
 
+async cornerCheck(){
+  let sequence=''
+  
+    return sequence;
+}
 
-
+async yellowCorners(){
+  let sideChecked=false;
+  let sequence='';
+  while(!sideChecked)
+  {
+    if(
+        ((this.state.board[3][9]==='y'&&this.state.board[3][8]==='o')||
+        (this.state.board[3][8]==='y'&&this.state.board[0][5]==='o')||
+        (this.state.board[0][5]==='y'&&this.state.board[3][9]==='o'))
+        &&
+        ((this.state.board[3][11]==='y'&&this.state.board[0][3]==='g')||
+        (this.state.board[0][3]==='y'&&this.state.board[3][0]==='g')||
+        (this.state.board[3][0]==='y'&&this.state.board[3][11]==='g'))
+        &&
+        ((this.state.board[5][11]==='y'&&this.state.board[5][0]==='r')||
+        (this.state.board[5][0]==='y'&&this.state.board[8][3]==='r')||
+        (this.state.board[8][3]==='y'&&this.state.board[5][11]==='r'))
+        &&
+        ((this.state.board[5][9]==='y'&&this.state.board[8][5]==='b')||
+        (this.state.board[8][5]==='y'&&this.state.board[5][8]==='b')||
+        (this.state.board[5][8]==='y'&&this.state.board[5][9]==='b')
+        )
+    )
+    {sideChecked=true;}
+    else
+    {
+      //corner ygo
+    if( 
+      (this.state.board[3][9]==='y'&&this.state.board[3][8]==='o')||
+      (this.state.board[3][8]==='y'&&this.state.board[0][5]==='o')||
+      (this.state.board[0][5]==='y'&&this.state.board[3][9]==='o')
+      )
+        {
+        await this.B();sequence+='B';
+        await this.R();sequence+='R';
+        await this.b();sequence+='b';
+        await this.l();sequence+='l';
+        await this.B();sequence+='B';
+        await this.r();sequence+='r';
+        await this.b();sequence+='b';
+        await this.L();sequence+='L';
+        }
+      //corner ygr
+      else if(
+      (this.state.board[3][11]==='y'&&this.state.board[0][3]==='g')||
+      (this.state.board[0][3]==='y'&&this.state.board[3][0]==='g')||
+      (this.state.board[3][0]==='y'&&this.state.board[3][11]==='g')
+      )
+        {
+        await this.B();sequence+='B';
+        await this.U();sequence+='U';
+        await this.b();sequence+='b';
+        await this.d();sequence+='d';
+        await this.B();sequence+='B';
+        await this.u();sequence+='u';
+        await this.b();sequence+='b';
+        await this.D();sequence+='D';
+        }
+      //corner ybr
+      else if(
+      (this.state.board[5][11]==='y'&&this.state.board[5][0]==='r')||
+      (this.state.board[5][0]==='y'&&this.state.board[8][3]==='r')||
+      (this.state.board[8][3]==='y'&&this.state.board[5][11]==='r')
+      )
+        {
+        await this.B();sequence+='B';
+        await this.L();sequence+='L';
+        await this.b();sequence+='b';
+        await this.r();sequence+='r';
+        await this.B();sequence+='B';
+        await this.l();sequence+='l';
+        await this.b();sequence+='b';
+        await this.R();sequence+='R';
+        }
+      //corner ybo
+      else if(
+      (this.state.board[5][9]==='y'&&this.state.board[8][5]==='b')||
+      (this.state.board[8][5]==='y'&&this.state.board[5][8]==='b')||
+      (this.state.board[5][8]==='y'&&this.state.board[5][9]==='b')
+      )
+        {
+        await this.B();sequence+='B';
+        await this.D();sequence+='D';
+        await this.b();sequence+='b';
+        await this.u();sequence+='u';
+        await this.B();sequence+='B';
+        await this.d();sequence+='d';
+        await this.b();sequence+='b';
+        await this.U();sequence+='U';
+        }  
+      else{
+        await this.B();sequence+='B';
+        await this.R();sequence+='R';
+        await this.b();sequence+='b';
+        await this.l();sequence+='l';
+        await this.B();sequence+='B';
+        await this.r();sequence+='r';
+        await this.b();sequence+='b';
+        await this.L();sequence+='L';
+      }
+    }
+  }
+  let cornerChecked=false;
+  while(!cornerChecked){
+    if(this.state.board[3][9]==='y')
+    {
+      cornerChecked=true;
+    }
+    else
+    {
+      if(this.state.board[3][8]==='y')
+      {
+        sequence+='rfRFrfRF';
+        await this.cornerMove(); 
+      }
+      else 
+      {
+        sequence+='frFRfrFR';
+        await this.cornerMoveReverse();
+      }       
+    }      
+  }
+  await this.B();
+  sequence+='B';
+  cornerChecked=false;
+  while(!cornerChecked){
+    if(this.state.board[3][9]==='y')
+    {
+      cornerChecked=true;
+    }
+    else
+    {
+      if(this.state.board[3][8]==='y')
+      {
+        sequence+='rfRFrfRF';
+        await this.cornerMove(); 
+      }
+      else 
+      {
+        sequence+='frFRfrFR';
+        await this.cornerMoveReverse();
+      }       
+    }      
+  }
+  await this.B();
+  sequence+='B';
+  cornerChecked=false;
+  while(!cornerChecked){
+    if(this.state.board[3][9]==='y')
+    {
+      cornerChecked=true;
+    }
+    else
+    {
+      if(this.state.board[3][8]==='y')
+      {
+        sequence+='rfRFrfRF';
+        await this.cornerMove(); 
+      }
+      else 
+      {
+        sequence+='frFRfrFR';
+        await this.cornerMoveReverse();
+      }       
+    }      
+  }
+  await this.B();
+  sequence+='B';
+  cornerChecked=false;
+  while(!cornerChecked){
+    if(this.state.board[3][9]==='y')
+    {
+      cornerChecked=true;
+    }
+    else
+    {
+      if(this.state.board[3][8]==='y')
+      {
+        sequence+='rfRFrfRF';
+        await this.cornerMove(); 
+      }
+      else 
+      {
+        sequence+='frFRfrFR';
+        await this.cornerMoveReverse();
+      }       
+    }      
+  }
+  await this.B();
+  sequence+='B';
+  this.logOptimisedSequence(sequence);
+}
 
   // 3 moves in a row is the same as that move backwards
   // one move then another in the opposite direction is the same as no movement
