@@ -11,15 +11,15 @@ class App extends React.Component {
     this.state={
       board:[
         [null,null,null,'g' ,'g' ,'g' ,null,null,null,null,null,null],
-        [null,null,null,'g' ,'g' ,'g' ,null,null,null,null,null,null],
+        [null,null,null,'g' ,'Ng' ,'g' ,null,null,null,null,null,null],
         [null,null,null,'g' ,'g' ,'g' ,null,null,null,null,null,null],
     
         ['r' ,'r' ,'r' ,'w' ,'w' ,'w' ,'o' ,'o' ,'o' ,'y' ,'y' ,'y' ],
-        ['r' ,'r' ,'r' ,'w' ,'w' ,'w' ,'o' ,'o' ,'o' ,'y' ,'y' ,'y' ],
+        ['r' ,'Nr' ,'r' ,'w' ,'Nw' ,'w' ,'o' ,'No' ,'o' ,'y' ,'Ny' ,'y' ],
         ['r' ,'r' ,'r' ,'w' ,'w' ,'w' ,'o' ,'o' ,'o' ,'y' ,'y' ,'y' ],
     
         [null,null,null,'b' ,'b' ,'b' ,null,null,null,null,null,null],
-        [null,null,null,'b' ,'b' ,'b' ,null,null,null,null,null,null],
+        [null,null,null,'b' ,'Nb' ,'b' ,null,null,null,null,null,null],
         [null,null,null,'b' ,'b' ,'b' ,null,null,null,null,null,null],
       ],
       selectedColor:'w',
@@ -28,8 +28,11 @@ class App extends React.Component {
 
   changeColor = (x,y) => {
     let newBoard=this.state.board
-    newBoard[y][x]=this.state.selectedColor
-    this.setState({board:newBoard})
+    if(this.state.board[y][x][0]!=='N')
+    {
+      newBoard[y][x]=this.state.selectedColor
+      this.setState({board:newBoard})
+    }
   }
 
   setColor =(setColor) =>{
@@ -1157,6 +1160,7 @@ async yellowCorners(){
             </tbody>
           </table>
           <ColorPicker selectedColor={this.state.selectedColor} setColor={this.setColor}/>
+          <div className="steps"></div>
         </div>
       </div>
     );

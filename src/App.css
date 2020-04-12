@@ -40,33 +40,33 @@
   color: #61dafb;
 }
 
-.g,.w,.o,.y,.r,.b{
+.g,.w,.o,.y,.r,.b,.Ng,.Nw,.No,.Ny,.Nr,.Nb{
   height: 6vmin;
   width:6vmin;
 ;
 }
 
-.g, .cg,.cug{
+.g,.Ng, .cg,.cug{
   background: #00ff00;
 
 }
 
-.w, .cw,.cuw{
+.w,.Nw, .cw,.cuw{
   background: #ffffff;
 
 }
-.o, .co,.cuo{
+.o,.No, .co,.cuo{
   background: #ff5e00;
 }
-.y, .cy,.cuy{
+.y,.Ny, .cy,.cuy{
   background: #ffff00;
 
 }
-.r, .cr,.cur{
+.r,.Nr, .cr,.cur{
   background: #ff0000;
 }
 
-.b, .cb,.cub{
+.b,.Nb, .cb,.cub{
   background: #0000ff;
 }
 
