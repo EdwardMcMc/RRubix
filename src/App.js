@@ -23,6 +23,7 @@ class App extends React.Component {
         [null,null,null,'b' ,'b' ,'b' ,null,null,null,null,null,null],
       ],
       selectedColor:'w',
+      sequence:'',
     }
   }
 
@@ -288,6 +289,24 @@ class App extends React.Component {
           case 'y':
             y+=1;
             break;
+          case 'Nw':
+            w+=1;
+            break;
+          case 'Ng':
+            g+=1;
+            break;
+          case 'No':
+            o+=1;
+            break;
+          case 'Nb':
+            b+=1;
+            break;
+          case 'Nr':
+            r+=1;
+            break;
+          case 'Ny':
+            y+=1;
+            break;
           default:
             break;
         }
@@ -416,7 +435,7 @@ class App extends React.Component {
         sideChecked=true;
       }
     }
-    this.logOptimisedSequence(sequence);
+    this.setState({sequence:sequence})
   }
 
 async whiteCorners(){
@@ -568,7 +587,7 @@ async whiteCorners(){
       sideChecked=true;
     }
   }
-  this.logOptimisedSequence(sequence); 
+  this.setState({sequence:sequence});
 }
 
 async middleEdges(){
@@ -734,7 +753,7 @@ async middleEdges(){
       sideChecked=true;
     }
   }
-  this.logOptimisedSequence(sequence)
+  this.setState({sequence:sequence});
 }
 
 async yellowEdges(){
@@ -828,7 +847,7 @@ sideChecked=true;
 }
   
 }
-this.logOptimisedSequence(sequence)
+this.setState({sequence:sequence});
 }
 
 async cornerMove(){
@@ -1049,13 +1068,15 @@ async yellowCorners(){
   }
   await this.B();
   sequence+='B';
-  this.logOptimisedSequence(sequence);
+  this.setState({sequence:sequence});
+  this.logOptimisedSequence();
 }
 
   // 3 moves in a row is the same as that move backwards
   // one move then another in the opposite direction is the same as no movement
   // this function replaces 3 moves with 1 move and removes useless moves 
-  logOptimisedSequence(seq){
+  logOptimisedSequence(){
+    let seq=this.state.sequence;
     for(let i=0;i<seq.length;i++)
     {
       if(seq[i]===seq[i].toUpperCase())
@@ -1066,7 +1087,21 @@ async yellowCorners(){
             //i & i+1 uppercase
             if(seq[i+2]!==undefined&&seq[i]===seq[i+2]){
             //3 in a row
-              seq=seq.slice(0,i)+seq[i].toLowerCase()+seq.slice(i+3,seq.length)
+              if(seq[i+3]!==undefined&&seq[i]===seq[i+3]){
+                let half1=''
+                let half2=''
+                if(seq[i-1]!==undefined){
+                  half1=seq.slice(0,i-1);
+                }
+                if(seq[i+4]!==undefined)
+                {
+                  half2=seq[i].toLowerCase()+seq.slice(i+4,seq.length);
+                }
+                seq=half1+half2;
+              }
+              else{
+                seq=seq.slice(0,i)+seq[i].toLowerCase()+seq.slice(i+3,seq.length)
+              }
             }
           }
           else if(seq[i+1]===seq[i].toLowerCase()){
