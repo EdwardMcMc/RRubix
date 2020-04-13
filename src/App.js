@@ -4,6 +4,7 @@ import './index.css';
 import Board from './components/Board';
 import ColorPicker from './components/ColorPicker'
 import Button from './components/Button';
+import ErrorMessage from './components/ErrorMessage';
 
 class App extends React.Component {
   constructor(props){
@@ -24,6 +25,7 @@ class App extends React.Component {
       ],
       selectedColor:'w',
       sequence:'',
+      errorMessage:"",
     }
   }
 
@@ -249,13 +251,15 @@ class App extends React.Component {
   }
 
   async Solve(){
-    if (await this.verifyCube()){
-      await this.whiteCross();
-      await this.whiteCorners();
-      await this.middleEdges();
-      await this.yellowEdges();
-      await this.yellowCorners();
-    }
+
+      if (await this.verifyCube()){
+        await this.whiteCross();
+        await this.whiteCorners();
+        await this.middleEdges();
+        await this.yellowEdges();
+        await this.yellowCorners();
+      }
+
   }
 
   async verifyCube(){
@@ -315,17 +319,24 @@ class App extends React.Component {
     if(w===9&&g===9&&o===9&&b===9&&r===9&&y===9)
     {
       console.log('cube validated');
+      this.setState({errorMessage:""})
+
       return true;
     }
     else{
       console.log(w+' '+g+' '+o+' '+b+' '+r+' '+y)
       console.log("cube validation failed")
+      this.setState({errorMessage:"Cube Validation Failed, the cube you entered is impossible to solve"})
+      setTimeout(this.clearError.bind(this), 5000);
       return false;
-    }
-    
-    
+    }   
   }
 
+  async clearError(){
+    this.setState({errorMessage:""});;
+  }
+
+  
   async whiteCross(){
     let sideChecked=false
     let sequence=''
@@ -1184,7 +1195,9 @@ async yellowCorners(){
                         </td>
                       </tr>
                       <tr><td colSpan='2'><Button function={this.Solve.bind(this)} text='Solve' solve='solve'/></td></tr>
-                      
+                      <tr><td className="errorContainer" >
+                        <ErrorMessage className="errorMessage"  isVisible={this.state.errorMessage!==""}ErrorMessage={this.state.errorMessage}>
+                        </ErrorMessage></td></tr>
                     </tbody>
                   </table>
                 </td>

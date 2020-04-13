@@ -133,6 +133,17 @@
   height: 5vh;
 }
 
+.errorMessage{
+  color: #ff0000;
+  font-family: monospace;
+  font-size: 1vh;
+  opacity: 0;
+  width: 18vh;
+}
+.errorContainer{
+  height: 5vh;
+}
+
 @media only screen and (min-width: 768px) {
   /* For desktop: */
   .cg,.cw,.co,.cy,.cr,.cb{
