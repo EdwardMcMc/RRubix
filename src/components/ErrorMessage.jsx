@@ -16,7 +16,7 @@ import { AnimatePresence,motion } from "framer-motion";
 const ErrorMessage = ({ isVisible,ErrorMessage }) => (
     <AnimatePresence>
       {isVisible && (
-        <motion.div 
+        <motion.div className="errorMessage"
             key='1234'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

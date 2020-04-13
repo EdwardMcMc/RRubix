@@ -24,7 +24,13 @@ class App extends React.Component {
         [null,null,null,'b' ,'b' ,'b' ,null,null,null,null,null,null],
       ],
       selectedColor:'w',
-      sequence:'',
+      sequence:{
+        whiteCross:'',
+        whiteCorners:'',
+        middleEdges:'',
+        yellowCross:'',
+        yellowCorners:'',  
+      },
       errorMessage:"",
     }
   }
@@ -251,16 +257,21 @@ class App extends React.Component {
   }
 
   async Solve(){
-
-      if (await this.verifyCube()){
-        await this.whiteCross();
-        await this.whiteCorners();
-        await this.middleEdges();
-        await this.yellowEdges();
-        await this.yellowCorners();
-      }
-
+    try{
+      await this.verifyCube();
+      await this.whiteCross();
+      await this.whiteCorners();
+      await this.middleEdges();
+      await this.yellowEdges();
+      await this.yellowCorners();
+    }
+    catch(e){
+      console.log(e)
+      this.setState({errorMessage:'An Error Has Occured in Solving The cube, it is probably unsolvable: '+e.message});
+      setTimeout(this.clearError.bind(this), 5000);
+    }
   }
+
 
   async verifyCube(){
     let w=0;
@@ -276,40 +287,40 @@ class App extends React.Component {
         switch(this.state.board[i][j])
         {
           case 'w':
-            w+=1;
+            w++;
             break;
           case 'g':
-            g+=1;
+            g++;
             break;
           case 'o':
-            o+=1;
+            o++;
             break;
           case 'b':
-            b+=1;
+            b++;
             break;
           case 'r':
-            r+=1;
+            r++;
             break;
           case 'y':
-            y+=1;
+            y++;
             break;
           case 'Nw':
-            w+=1;
+            w++;
             break;
           case 'Ng':
-            g+=1;
+            g++;
             break;
           case 'No':
-            o+=1;
+            o++;
             break;
           case 'Nb':
-            b+=1;
+            b++;
             break;
           case 'Nr':
-            r+=1;
+            r++;
             break;
           case 'Ny':
-            y+=1;
+            y++;
             break;
           default:
             break;
@@ -324,11 +335,8 @@ class App extends React.Component {
       return true;
     }
     else{
-      console.log(w+' '+g+' '+o+' '+b+' '+r+' '+y)
-      console.log("cube validation failed")
-      this.setState({errorMessage:"Cube Validation Failed, the cube you entered is impossible to solve"})
-      setTimeout(this.clearError.bind(this), 5000);
-      return false;
+      let error={code: 500, message:"Cube validation Failed"}
+      throw error;
     }   
   }
 
@@ -340,51 +348,61 @@ class App extends React.Component {
   async whiteCross(){
     let sideChecked=false
     let sequence=''
+    let c=0;
 
     //move white side pieces that are oriented wrong
       if(this.state.board[2][4]==='w'||(this.state.board[3][4]==='w'&&this.state.board[2][4]!=='g')){
+        c+=2;
         await this.U();sequence+='U';
         await this.U();sequence+='U';
       }
       if(this.state.board[4][6]==='w'||(this.state.board[4][5]==='w'&&this.state.board[4][6]!=='o')){
+        c+=2;
         await this.R();sequence+='R';
         await this.R();sequence+='R';
       }
       if(this.state.board[6][4]==='w'||(this.state.board[5][4]==='w'&&this.state.board[6][4]!=='b')){
+        c+=2;
         await this.D();sequence+='D';
         await this.D();sequence+='D';
       }
       if(this.state.board[4][2]==='w'||(this.state.board[4][3]==='w'&&this.state.board[4][2]!=='r')){
+        c+=2;
         await this.L();sequence+='L';
         await this.L();sequence+='L';
       }
     
-    //move white pices from rear side that aref rear side
+    //move white pices from rear side that are facing rear side
     sideChecked=false;
-    while(!sideChecked)
+    while(!sideChecked&&c<=40)
     {
 
       if( this.state.board[4][9]==='w'|| this.state.board[3][10]==='w'|| this.state.board[4][11]==='w'|| this.state.board[5][10]==='w'){
         if( this.state.board[4][9]==='w'&& this.state.board[4][8]==='o')
         {
-            await this.R(); sequence+='R';
-            await this.R(); sequence+='R';
+          c+=2;
+          await this.R(); sequence+='R';
+          await this.R(); sequence+='R';
         }
         else if( this.state.board[3][10]==='w'&& this.state.board[0][4]==='g')
         {
+          c+=2;
           await this.U(); sequence+='U';
           await this.U(); sequence+='U';
         }
         else if( this.state.board[4][11]==='w'&& this.state.board[4][0]==='r'){
+          c+=2;
           await this.L(); sequence+='L';
           await this.L(); sequence+='L';
         }
         else if( this.state.board[5][10]==='w'&& this.state.board[8][4]==='b')
         {
+          c+=2;
           await this.D(); sequence+='D';
           await this.D(); sequence+='D';
         }
         else{
+          c++;
           await this.B(); sequence+='B';
         }
       }
@@ -393,50 +411,59 @@ class App extends React.Component {
       else if( this.state.board[4][8]==='w'|| this.state.board[0][4]==='w'|| this.state.board[4][0]==='w'|| this.state.board[8][4]==='w'){
         if(this.state.board[4][8]==='w'&&this.state.board[4][9]==='b')
         {
+          c+=3;
           await this.R(); sequence+='R';
           await this.d(); sequence+='d';
           await this.r(); sequence+='r';
         }
         else if(this.state.board[0][4]==='w'&&this.state.board[3][10]==='o')
         {
+          c+=3;
           await this.U(); sequence+='U';
           await this.r(); sequence+='r';
           await this.u(); sequence+='u';
         }
         else if(this.state.board[4][0]==='w'&&this.state.board[4][11]==='g')
         {
+          c+=3;
           await this.L(); sequence+='L';
           await this.u(); sequence+='u';
           await this.l(); sequence+='l';
         }
         else if(this.state.board[8][4]==='w'&&this.state.board[5][10]==='r')
         {
+          c+=3;
           await this.D(); sequence+='D';
           await this.l(); sequence+='l';
           await this.d(); sequence+='d';
         }
         else{
+          c++;
           await this.B(); sequence+='B';
         }
       }
       else if( this.state.board[1][3]==='w'||this.state.board[1][5]==='w'|| this.state.board[3][7]==='w'||this.state.board[5][7]==='w'|| this.state.board[7][5]==='w'||this.state.board[7][3]==='w'|| this.state.board[5][1]==='w'||this.state.board[3][1]==='w'){
         //moving pieces from non rear side to rear side
         if(this.state.board[1][5]==='w'||this.state.board[3][7]==='w'){
+          c+=3;
           await this.R();sequence+='R';
           await this.B();sequence+='B';
           await this.r();sequence+='r';
         }
          else if(this.state.board[5][7]==='w'||this.state.board[7][5]==='w'){
+          c+=3;
           await this.D();sequence+='D';
           await this.B();sequence+='B';
           await this.d();sequence+='d';
         }
         else if(this.state.board[7][3]==='w'||this.state.board[5][1]==='w'){
+          c+=3;
           await this.L();sequence+='L';
           await this.B();sequence+='B';
           await this.l();sequence+='l';
         }
         else if(this.state.board[3][1]==='w'||this.state.board[1][3]==='w'){
+          c+=3;
           await this.U();sequence+='U';
           await this.B();sequence+='B';
           await this.u();sequence+='u';
@@ -446,34 +473,54 @@ class App extends React.Component {
         sideChecked=true;
       }
     }
-    this.setState({sequence:sequence})
+    if(c<=40){
+      this.setState({sequence:{
+        whiteCross:this.logOptimisedSequence(sequence),
+        whiteCorners:this.state.sequence.whiteCorners,
+        middleEdges:this.state.sequence.middleEdges,
+        yellowCross:this.state.sequence.yellowCross,
+        yellowCorners:this.state.sequence.yellowCorners,  
+      }})
+      return true;
+    }
+    else{
+      let error={code: 500, message:"Couldn't Solve White Cross"}
+      throw error;
+    }
   }
+
+
 
 async whiteCorners(){
   let sideChecked=false;
   let sequence='';
+  let c=0;
   
-  while(!sideChecked){
+  while(!sideChecked&&c<=93){
     //moving white corners that are incorectly oriented to rear side
     if((this.state.board[3][2]==='w'||this.state.board[2][3]==='w')||(this.state.board[3][3]==='w'&&this.state.board[2][3]!=='g')){
+      c+=4;
       await this.l(); sequence+='l';
       await this.B(); sequence+='B';
       await this.L(); sequence+='L';
       await this.B(); sequence+='B';
     }
     else if((this.state.board[2][5]==='w'||this.state.board[3][6]==='w')||(this.state.board[3][5]==='w'&&this.state.board[2][5]!=='g')){
+      c+=4;
       await this.u(); sequence+='u';
       await this.B(); sequence+='B';
       await this.U(); sequence+='U';
       await this.B(); sequence+='B';
     }
     else if((this.state.board[5][6]==='w'||this.state.board[6][5]==='w')||(this.state.board[5][5]==='w'&&this.state.board[6][5]!=='b')){
+      c+=4;
       await this.r(); sequence+='r';
       await this.B(); sequence+='B';
       await this.R(); sequence+='R';
       await this.B(); sequence+='B';
     }
     else if((this.state.board[6][3]==='w'||this.state.board[5][2]==='w')||(this.state.board[5][3]==='w'&&this.state.board[6][3]!=='b')){
+      c+=4;
       await this.d(); sequence+='d';
       await this.B(); sequence+='B';
       await this.D(); sequence+='D';
@@ -483,13 +530,19 @@ async whiteCorners(){
       sideChecked=true;
     }
   }
+  if(c>93)
+  {
+    let error={code: 500, message:"Couldn't Solve White Corners"}
+    throw error;
+  }
 
   
   sideChecked=false;
-  while(!sideChecked){
+  while(!sideChecked&&c<=93){
     //moving white corner pieces facing rear into place
     if(this.state.board[3][9]==='w'||this.state.board[3][11]==='w'||this.state.board[5][9]==='w'||this.state.board[5][11]==='w'){
       if(this.state.board[3][11]==='w'&&this.state.board[3][0]==='g'){
+        c+=8;
         await this.l();sequence+='l';
         await this.B();sequence+='B';
         await this.B();sequence+='B';
@@ -500,6 +553,7 @@ async whiteCorners(){
         await this.L();sequence+='L';
       }
       else if(this.state.board[3][9]==='w'&&this.state.board[0][5]==='o'){
+        c+=8;
         await this.u();sequence+='u';
         await this.B();sequence+='B';
         await this.B();sequence+='B';
@@ -510,6 +564,7 @@ async whiteCorners(){
         await this.U();sequence+='U';
       }
       else if(this.state.board[5][9]==='w'&&this.state.board[5][8]==='b'){
+        c+=8;
         await this.r();sequence+='r';
         await this.B();sequence+='B';
         await this.B();sequence+='B';
@@ -520,6 +575,7 @@ async whiteCorners(){
         await this.R();sequence+='R';
       }
       else if(this.state.board[5][11]==='w'&&this.state.board[8][3]==='r'){
+        c+=8;
         await this.d();sequence+='d';
         await this.B();sequence+='B';
         await this.B();sequence+='B';
@@ -530,6 +586,7 @@ async whiteCorners(){
         await this.D();sequence+='D';
       }
       else{
+        c++;
         await this.B(); sequence+='B';
       }
     }
@@ -537,29 +594,34 @@ async whiteCorners(){
     else if(this.state.board[3][0]==='w'||this.state.board[0][5]==='w'||this.state.board[5][8]==='w'||this.state.board[8][3]==='w'){
       if(this.state.board[3][0]==='w'&&this.state.board[0][3]==='g')
       {
+        c+=3;
         await this.l();sequence+='l';
         await this.b();sequence+='b';
         await this.L();sequence+='L';
       }
       else if(this.state.board[0][5]==='w'&&this.state.board[3][8]==='o')
       {
+        c+=3;
         await this.u();sequence+='u';
         await this.b();sequence+='b';
         await this.U();sequence+='U';
       }
       else if(this.state.board[5][8]==='w'&&this.state.board[8][5]==='b')
       {
+        c+=3;
         await this.r();sequence+='r';
         await this.b();sequence+='b';
         await this.R();sequence+='R';
       }
       else if(this.state.board[8][3]==='w'&&this.state.board[5][0]==='r')
       {
+        c+=3;
         await this.d();sequence+='d';
         await this.b();sequence+='b';
         await this.D();sequence+='D';
       }
       else{
+        c++;
         await this.B();sequence+='B'
       }
     }
@@ -567,30 +629,35 @@ async whiteCorners(){
     else if(this.state.board[0][3]==='w'||this.state.board[3][8]==='w'||this.state.board[8][5]==='w'||this.state.board[5][0]==='w'){
       if(this.state.board[0][3]==='w'&&this.state.board[3][0]==='r')
       {
+        c+=3;
         await this.U();sequence+='U';
         await this.B();sequence+='B';
         await this.u();sequence+='u';
       }
       else if(this.state.board[3][8]==='w'&&this.state.board[0][5]==='g')
       {
+        c+=3;
         await this.R();sequence+='R';
         await this.B();sequence+='B';
         await this.r();sequence+='r';
       }
       else if(this.state.board[8][5]==='w'&&this.state.board[5][8]==='o')
       {
+        c+=3;
         await this.D();sequence+='D';
         await this.B();sequence+='B';
         await this.d();sequence+='d';
       }
       else if(this.state.board[5][0]==='w'&&this.state.board[8][3]==='b')
       {
+        c+=3;
         await this.L();sequence+='L';
         await this.B();sequence+='B';
         await this.l();sequence+='l';
       }
 
       else{
+        c++;
         await this.B();sequence+='B'
       }
     }
@@ -598,14 +665,28 @@ async whiteCorners(){
       sideChecked=true;
     }
   }
-  this.setState({sequence:sequence});
+  if(c<=93){
+    this.setState({sequence:{
+      whiteCross:this.state.sequence.whiteCross,
+      whiteCorners:this.logOptimisedSequence(sequence),
+      middleEdges:this.state.sequence.middleEdges,
+      yellowCross:this.state.sequence.yellowCross,
+      yellowCorners:this.state.sequence.yellowCorners,  
+    }})
+  }
+  else{
+    let error={code: 500, message:"Couldn't Solve White Corners"}
+    throw error;
+  }
+
 }
 
 async middleEdges(){
   let sideChecked=false;
   let sequence='';
+  let c=0;
 
-  while(!sideChecked){
+  while(!sideChecked&&c<=78){
     if(
       (this.state.board[0][4]!=='y'&&this.state.board[3][10]!=='y')||
       (this.state.board[4][0]!=='y'&&this.state.board[4][11]!=='y')||
@@ -624,6 +705,7 @@ async middleEdges(){
             await this.U(); sequence+='U';
             await this.b(); sequence+='b';
             await this.u(); sequence+='u';
+            c+=8;
           }
           else if (this.state.board[3][10]==='o')
           {
@@ -635,6 +717,7 @@ async middleEdges(){
             await this.u(); sequence+='u';
             await this.B(); sequence+='B';
             await this.U(); sequence+='U';
+            c+=8;
           }
         }
         else if(this.state.board[4][8]==='o'&&this.state.board[4][9]!=='y')
@@ -649,6 +732,7 @@ async middleEdges(){
             await this.R(); sequence+='R';
             await this.b(); sequence+='b';
             await this.r(); sequence+='r';
+            c+=8;
           }
           else if(this.state.board[4][9]==='b')
           {
@@ -660,6 +744,7 @@ async middleEdges(){
             await this.r(); sequence+='r';
             await this.B(); sequence+='B';
             await this.R(); sequence+='R';
+            c+=8;
           }
         }
         else if(this.state.board[8][4]==='b'&&this.state.board[5][10]!=='y')
@@ -674,6 +759,7 @@ async middleEdges(){
             await this.D(); sequence+='D';
             await this.b(); sequence+='b';
             await this.d(); sequence+='d';
+            c+=8;
           }
           else if(this.state.board[5][10]==='r')
           {
@@ -685,6 +771,7 @@ async middleEdges(){
             await this.d(); sequence+='d';
             await this.B(); sequence+='B';
             await this.D(); sequence+='D';
+            c+=8;
           }
         }
         else if(this.state.board[4][0]==='r'&&this.state.board[4][11]!=='y')
@@ -699,6 +786,7 @@ async middleEdges(){
             await this.L(); sequence+='L';
             await this.b(); sequence+='b';
             await this.l(); sequence+='l';
+            c+=8;
           }
           else if(this.state.board[4][11]==='g')
           {
@@ -710,10 +798,14 @@ async middleEdges(){
             await this.l(); sequence+='l';
             await this.B(); sequence+='B';
             await this.L(); sequence+='L';
+            c+=8;
+          }
+          else{
+            await this.B();sequence+='B';c++;
           }
         }
         else{
-          await this.B();sequence+='B';
+          await this.B();sequence+='B';c++;
         }
     }
     else if(this.state.board[1][5]!=='g'||this.state.board[3][7]!=='o')
@@ -726,6 +818,7 @@ async middleEdges(){
       await this.u(); sequence+='u';
       await this.B(); sequence+='B';
       await this.U(); sequence+='U';
+      c+=8;
     }
     else if(this.state.board[5][7]!=='o'||this.state.board[7][5]!=='b')
     {
@@ -737,6 +830,7 @@ async middleEdges(){
       await this.r(); sequence+='r';
       await this.B(); sequence+='B';
       await this.R(); sequence+='R';
+      c+=8;
     }
     else if(this.state.board[7][3]!=='b'||this.state.board[5][1]!=='r')
     {
@@ -748,6 +842,7 @@ async middleEdges(){
       await this.d(); sequence+='d';
       await this.B(); sequence+='B';
       await this.D(); sequence+='D';
+      c+=8;
     }
     else if(this.state.board[3][1]!=='r'||this.state.board[1][3]!=='g')
     {
@@ -759,18 +854,42 @@ async middleEdges(){
       await this.l(); sequence+='l';
       await this.B(); sequence+='B';
       await this.L(); sequence+='L';
+      c+=8;
     }
-    else{
+    else if(
+      this.state.board[5][1]==='r'&&
+      this.state.board[3][1]==='r'&&
+      this.state.board[1][3]==='g'&&
+      this.state.board[1][5]==='g'&&
+      this.state.board[3][7]==='o'&&
+      this.state.board[5][7]==='o'&&
+      this.state.board[7][5]==='b'&&
+      this.state.board[7][3]==='b'
+    ){
       sideChecked=true;
     }
   }
-  this.setState({sequence:sequence});
+  if(c<=78)
+  {
+    this.setState({sequence:{
+      whiteCross:this.state.sequence.whiteCross,
+      whiteCorners:this.state.sequence.whiteCorners,
+      middleEdges:this.logOptimisedSequence(sequence),
+      yellowCross:this.state.sequence.yellowCross,
+      yellowCorners:this.state.sequence.yellowCorners,  
+    }})
+  }
+  else{
+    let error={code: 500, message:"Couldn't Solve Middle Edges"}
+      throw error;
+  }
 }
 
 async yellowEdges(){
   let sideChecked=false;
   let sequence='';
-while(!sideChecked){
+  let c=0;
+while(!sideChecked&&c<=108){
   if(this.state.board[3][10]!=='y'||this.state.board[4][11]!=='y'||this.state.board[5][10]!=='y'||this.state.board[4][9]!=='y')
   {
     if(
@@ -784,9 +903,11 @@ while(!sideChecked){
       await this.b();sequence+='b';
       await this.r();sequence+='r';
       await this.u();sequence+='u';
+      c+=6;
     }
     else{
-        await this.B();sequence+='B'
+        await this.B();sequence+='B';
+        c++;
     }
   }
   else
@@ -794,9 +915,13 @@ while(!sideChecked){
     sideChecked=true
   }
 }
+if(c>108){
+  let error={code: 500, message:"Couldn't Solve Yellow Edges"}
+  throw error;
+}
 
 sideChecked=false;
-while(!sideChecked)
+while(!sideChecked&&c<=108)
 {
 if(this.state.board[0][4]!=='g'||this.state.board[4][0]!=='r'||this.state.board[8][4]!=='b'||this.state.board[4][8]!=='o'){
   if(this.state.board[0][4]!=='g'&&this.state.board[4][0]!=='r'&&this.state.board[8][4]!=='b'&&this.state.board[4][8]!=='o')
@@ -813,6 +938,7 @@ if(this.state.board[0][4]!=='g'||this.state.board[4][0]!=='r'||this.state.board[
     await this.B();sequence+='B'
     await this.r();sequence+='r'
     await this.B();sequence+='B'
+    c+=9;
   }
   if(this.state.board[4][0]!=='r')
   {
@@ -825,6 +951,7 @@ if(this.state.board[0][4]!=='g'||this.state.board[4][0]!=='r'||this.state.board[
     await this.B();sequence+='B'
     await this.u();sequence+='u'
     await this.B();sequence+='B'
+    c+=9;
   }
   if(this.state.board[8][4]!=='b')
   {
@@ -837,6 +964,7 @@ if(this.state.board[0][4]!=='g'||this.state.board[4][0]!=='r'||this.state.board[
     await this.B();sequence+='B'
     await this.l();sequence+='l'
     await this.B();sequence+='B'
+    c+=9;
   }
   if(this.state.board[4][8]!=='o')
   {
@@ -849,16 +977,27 @@ if(this.state.board[0][4]!=='g'||this.state.board[4][0]!=='r'||this.state.board[
     await this.B();sequence+='B'
     await this.d();sequence+='d'
     await this.B();sequence+='B'
-  }}
-  
+    c+=9;
+  }} 
 }
 else
 {
 sideChecked=true;
+} 
 }
-  
+if(c<=108){
+  this.setState({sequence:{
+    whiteCross:this.state.sequence.whiteCross,
+    whiteCorners:this.state.sequence.whiteCorners,
+    middleEdges:this.state.sequence.middleEdges,
+    yellowCross:this.logOptimisedSequence(sequence),
+    yellowCorners:this.state.sequence.yellowCorners,  
+  }})
 }
-this.setState({sequence:sequence});
+else{
+  let error={code: 500, message:"Couldn't Solve Yellow Edges"}
+  throw error;
+}
 }
 
 async cornerMove(){
@@ -883,16 +1022,11 @@ async cornerMoveReverse(){
   await this.R();
 }
 
-async cornerCheck(){
-  let sequence=''
-  
-    return sequence;
-}
-
 async yellowCorners(){
   let sideChecked=false;
   let sequence='';
-  while(!sideChecked)
+  let c=0;
+  while(!sideChecked&&c<=98)
   {
     if(
         ((this.state.board[3][9]==='y'&&this.state.board[3][8]==='o')||
@@ -930,6 +1064,7 @@ async yellowCorners(){
         await this.r();sequence+='r';
         await this.b();sequence+='b';
         await this.L();sequence+='L';
+        c+=8;
         }
       //corner ygr
       else if(
@@ -946,6 +1081,7 @@ async yellowCorners(){
         await this.u();sequence+='u';
         await this.b();sequence+='b';
         await this.D();sequence+='D';
+        c+=8;
         }
       //corner ybr
       else if(
@@ -962,6 +1098,7 @@ async yellowCorners(){
         await this.l();sequence+='l';
         await this.b();sequence+='b';
         await this.R();sequence+='R';
+        c+=8;
         }
       //corner ybo
       else if(
@@ -978,6 +1115,7 @@ async yellowCorners(){
         await this.d();sequence+='d';
         await this.b();sequence+='b';
         await this.U();sequence+='U';
+        c+=8;
         }  
       else{
         await this.B();sequence+='B';
@@ -988,11 +1126,17 @@ async yellowCorners(){
         await this.r();sequence+='r';
         await this.b();sequence+='b';
         await this.L();sequence+='L';
+        c+=8;
       }
     }
+  }
+  if(c>98)
+  {
+    let error={code: 500, message:"Couldn't Solve Yellow Corners"}
+    throw error;
   }
   let cornerChecked=false;
-  while(!cornerChecked){
+  while(!cornerChecked&&c<=98){
     if(this.state.board[3][9]==='y')
     {
       cornerChecked=true;
@@ -1002,19 +1146,26 @@ async yellowCorners(){
       if(this.state.board[3][8]==='y')
       {
         sequence+='rfRFrfRF';
-        await this.cornerMove(); 
+        await this.cornerMove();
+        c+=8;
       }
       else 
       {
         sequence+='frFRfrFR';
         await this.cornerMoveReverse();
+        c+=8;
       }       
     }      
   }
+  if(c>98){
+    let error={code: 500, message:"Couldn't Solve Yellow Corners"}
+    throw error;
+  }
   await this.B();
   sequence+='B';
+  c++;
   cornerChecked=false;
-  while(!cornerChecked){
+  while(!cornerChecked&&c<=98){
     if(this.state.board[3][9]==='y')
     {
       cornerChecked=true;
@@ -1024,19 +1175,26 @@ async yellowCorners(){
       if(this.state.board[3][8]==='y')
       {
         sequence+='rfRFrfRF';
-        await this.cornerMove(); 
+        await this.cornerMove();
+        c+=8;
       }
       else 
       {
         sequence+='frFRfrFR';
         await this.cornerMoveReverse();
+        c+=8;
       }       
     }      
   }
+  if(c>98){
+    let error={code: 500, message:"Couldn't Solve Yellow Corners"}
+    throw error;
+  }
   await this.B();
   sequence+='B';
+  c++;
   cornerChecked=false;
-  while(!cornerChecked){
+  while(!cornerChecked&&c<=98){
     if(this.state.board[3][9]==='y')
     {
       cornerChecked=true;
@@ -1047,18 +1205,25 @@ async yellowCorners(){
       {
         sequence+='rfRFrfRF';
         await this.cornerMove(); 
+        c+=8;
       }
       else 
       {
         sequence+='frFRfrFR';
         await this.cornerMoveReverse();
+        c+=8;
       }       
     }      
   }
+  if(c>98){
+    let error={code: 500, message:"Couldn't Solve Yellow Corners"}
+    throw error;
+  }
   await this.B();
   sequence+='B';
+  c++;
   cornerChecked=false;
-  while(!cornerChecked){
+  while(!cornerChecked&&c<=98){
     if(this.state.board[3][9]==='y')
     {
       cornerChecked=true;
@@ -1068,26 +1233,39 @@ async yellowCorners(){
       if(this.state.board[3][8]==='y')
       {
         sequence+='rfRFrfRF';
-        await this.cornerMove(); 
+        await this.cornerMove();
+        c+=8; 
       }
       else 
       {
         sequence+='frFRfrFR';
         await this.cornerMoveReverse();
+        c+=8;
       }       
     }      
   }
   await this.B();
   sequence+='B';
-  this.setState({sequence:sequence});
-  this.logOptimisedSequence();
+  if(c>98){
+    let error={code: 500, message:"Couldn't Solve Yellow Corners"}
+    throw error;
+  }
+  else{
+    this.setState({sequence:{
+      whiteCross:this.state.sequence.whiteCross,
+      whiteCorners:this.state.sequence.whiteCorners,
+      middleEdges:this.state.sequence.middleEdges,
+      yellowCross:this.state.sequence.yellowCross,
+      yellowCorners:this.logOptimisedSequence(sequence),  
+    }})
+  }
 }
 
   // 3 moves in a row is the same as that move backwards
   // one move then another in the opposite direction is the same as no movement
   // this function replaces 3 moves with 1 move and removes useless moves 
-  logOptimisedSequence(){
-    let seq=this.state.sequence;
+  logOptimisedSequence(sequence){
+    let seq=sequence;
     for(let i=0;i<seq.length;i++)
     {
       if(seq[i]===seq[i].toUpperCase())
@@ -1139,7 +1317,8 @@ async yellowCorners(){
       }
 
     }
-    console.log(seq);
+    console.log(seq+' - '+seq.length+' moves');
+    return seq;
   }
 
   render(){
@@ -1196,7 +1375,7 @@ async yellowCorners(){
                       </tr>
                       <tr><td colSpan='2'><Button function={this.Solve.bind(this)} text='Solve' solve='solve'/></td></tr>
                       <tr><td className="errorContainer" >
-                        <ErrorMessage className="errorMessage"  isVisible={this.state.errorMessage!==""}ErrorMessage={this.state.errorMessage}>
+                        <ErrorMessage isVisible={this.state.errorMessage!==""}ErrorMessage={this.state.errorMessage}>
                         </ErrorMessage></td></tr>
                     </tbody>
                   </table>
