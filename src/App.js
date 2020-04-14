@@ -5,6 +5,7 @@ import Board from './components/Board';
 import ColorPicker from './components/ColorPicker'
 import Button from './components/Button';
 import ErrorMessage from './components/ErrorMessage';
+import Solution from './components/Solution'
 
 class App extends React.Component {
   constructor(props){
@@ -33,7 +34,10 @@ class App extends React.Component {
       },
       errorMessage:"",
     }
+    this.myRef=React.createRef();
   }
+
+  scrollToMyRef = () => window.scrollTo(0, this.myRef.current.offsetTop)
 
   changeColor = (x,y) => {
     let newBoard=this.state.board
@@ -264,6 +268,7 @@ class App extends React.Component {
       await this.middleEdges();
       await this.yellowEdges();
       await this.yellowCorners();
+      await this.scrollToMyRef();
     }
     catch(e){
       console.log(e)
@@ -1389,7 +1394,10 @@ async yellowCorners(){
           <ErrorMessage isVisible={this.state.errorMessage!==""}ErrorMessage={this.state.errorMessage}className='mobileErrorMessage'/>
           </div>
           <ColorPicker selectedColor={this.state.selectedColor} setColor={this.setColor}/>
-          <div className="steps"></div>
+          <div ref={this.myRef}>
+          <Solution isVisible={this.state.sequence.yellowCorners!==''}sequence={this.state.sequence}/>
+          </div>
+          
         </div>
       </div>
     );

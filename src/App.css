@@ -25,7 +25,7 @@
 
 .App-body{
   background-color: #282c34;
-  max-height: 200vh;
+  /* max-height: 200vh; */
   min-height:90vh;
   width: 100vw;
   display: flex;
@@ -152,7 +152,37 @@
 .mobileErrorContainer{
   height: 2vh;
 }
+.solution{
+  width:70vw;
+  border: 0;
+  border-spacing: 0;
+  border-collapse: collapse;
 
+}
+.solutionHeading{
+  width: 100%;
+  background: darkslategray;
+  height:8vmin
+}
+.solutionSubHeading{
+  background: dimgray;
+  width: 100%;
+}
+.steps{
+  width: 100%;
+}
+
+.solutiontrue{
+  background: silver;
+  width:100%;
+}
+.solutionfalse{
+  background: grey;
+}
+
+  .turnText{
+  width:30%
+  }
 
 
 @media only screen and (min-width: 768px) {
@@ -236,7 +266,10 @@
     opacity: 0;
     width: 0vh;
 }
-  
-  
-
+.turnIcon{
+  width:30%;
+  }
+  .turnText{
+  width:70%
+  }
 }
