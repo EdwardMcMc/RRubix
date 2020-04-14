@@ -180,7 +180,7 @@
   background: grey;
 }
 
-  .turnText{
+ .turnText{
   width:30%
   }
 
@@ -271,5 +271,9 @@
   }
   .turnText{
   width:70%
+  }
+
+.subHeadingImage{
+    width:30%
   }
 }
