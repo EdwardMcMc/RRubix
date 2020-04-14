@@ -94,7 +94,7 @@ class Solution extends React.Component{
                             <tbody>
                                 <tr >
                                     <td className='subHeadingImage'>
-                                        <img width='90%'alt='Part 1 White Cross'src={whiteCross}></img>
+                                        <center><img width='70%'alt='Part 1 White Cross'src={whiteCross}></img></center>
                                     </td>
                                     <td className='subHeadingText'>
                                     Part 1: White Cross ({this.props.sequence.whiteCross.length} steps)
@@ -115,7 +115,7 @@ class Solution extends React.Component{
                             <tbody>
                                 <tr >
                                     <td className='subHeadingImage'>
-                                        <img width='90%'height alt='Part 2 White Corners'src={whiteCorners}></img>
+                                        <center><img width='70%'height alt='Part 2 White Corners'src={whiteCorners}></img></center>
                                     </td>
                                     <td className='subHeadingText'>
                                     Part 2: White Corners ({this.props.sequence.whiteCorners.length} steps)
@@ -136,7 +136,7 @@ class Solution extends React.Component{
                             <tbody>
                                 <tr >
                                     <td className='subHeadingImage'>
-                                        <img width='90%'alt='Part 3 Middle Edges'src={middleEdges}></img>
+                                    <center><img width='70%'alt='Part 3 Middle Edges'src={middleEdges}></img></center>
                                     </td>
                                     <td className='subHeadingText'>
                                     Part 3: Middle Edges ({this.props.sequence.middleEdges.length} steps)
@@ -157,7 +157,7 @@ class Solution extends React.Component{
                             <tbody>
                                 <tr >
                                     <td className='subHeadingImage'>
-                                        <img width='90%'alt='Part 4 Yellow Cross'src={yellowCross}></img>
+                                    <center><img width='70%'alt='Part 4 Yellow Cross'src={yellowCross}></img></center>
                                     </td>
                                     <td className='subHeadingText'>
                                     Part 4: Yellow Cross({this.props.sequence.yellowCross.length} steps)
@@ -178,7 +178,7 @@ class Solution extends React.Component{
                             <tbody>
                                 <tr >
                                     <td className='subHeadingImage'>
-                                        <img width='90%'alt='Part 5 Yellow Corners'src={yellowCorners}></img>
+                                    <center><img width='70%'alt='Part 5 Yellow Corners'src={yellowCorners}></img></center>
                                     </td>
                                     <td className='subHeadingText'>
                                     Part 5: Yellow Corners ({this.props.sequence.yellowCorners.length} steps)

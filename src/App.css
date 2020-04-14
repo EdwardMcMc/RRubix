@@ -276,4 +276,7 @@
 .subHeadingImage{
     width:30%
   }
+  .subHeadingText{
+    width: 70%;
+  }
 }
