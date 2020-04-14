@@ -1375,8 +1375,7 @@ async yellowCorners(){
                       </tr>
                       <tr><td colSpan='2'><Button function={this.Solve.bind(this)} text='Solve' solve='solve'/></td></tr>
                       <tr><td className="errorContainer" >
-                        <ErrorMessage isVisible={this.state.errorMessage!==""}ErrorMessage={this.state.errorMessage}>
-                        </ErrorMessage></td></tr>
+                        <ErrorMessage isVisible={this.state.errorMessage!==""}ErrorMessage={this.state.errorMessage}className='errorMessage'/></td></tr>
                     </tbody>
                   </table>
                 </td>
@@ -1386,6 +1385,9 @@ async yellowCorners(){
               </tr>
             </tbody>
           </table>
+          <div className='mobileErrorContainer'>
+          <ErrorMessage isVisible={this.state.errorMessage!==""}ErrorMessage={this.state.errorMessage}className='mobileErrorMessage'/>
+          </div>
           <ColorPicker selectedColor={this.state.selectedColor} setColor={this.setColor}/>
           <div className="steps"></div>
         </div>

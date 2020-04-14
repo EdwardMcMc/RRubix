@@ -1,23 +1,10 @@
 import React from 'react';
 import { AnimatePresence,motion } from "framer-motion";
 
-// const ErrorMessage =({isToggled,Children})=>{
-//     return(
-//         <AnimatePresence>
-//             {isToggled&&(
-//              <div>
-//                  {Children}
-//              </div>   
-
-//             )}
-//         </AnimatePresence>
-//     )
-// }
-const ErrorMessage = ({ isVisible,ErrorMessage }) => (
+const ErrorMessage = ({ isVisible,ErrorMessage,className }) => (
     <AnimatePresence>
       {isVisible && (
-        <motion.div className="errorMessage"
-            key='1234'
+        <motion.div className={className}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -27,31 +14,5 @@ const ErrorMessage = ({ isVisible,ErrorMessage }) => (
       )}
     </AnimatePresence>
 )
-
-// class ErrorMessage extends React.Component{
-
-
-
-
-//   render(){
-//       if(this.props.errorMessage!=='')
-//       {
-//         return (
-//             <motion.div initial={{opacity:0}}animate={{opacity:1}} transition={{duration:0.5}}className="errorMessage">{this.props.errorMessage}</motion.div>
-//           );
-//       }
-//       else
-//       {
-//           return(
-//             <div className="ErrorSpace"></div>
-//           );
-//       }
- 
-//   }
-// }
-
-
-
-
 
  export default ErrorMessage

@@ -115,7 +115,7 @@
 
 .boardAndButtons{
   width:100vw;
-  height:70vh;
+  height:68vh;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -134,15 +134,26 @@
 }
 
 .errorMessage{
-  color: #ff0000;
-  font-family: monospace;
-  font-size: 1vh;
+
+  font-size: 0vh;
   opacity: 0;
-  width: 18vh;
+  width: 0vh;
 }
 .errorContainer{
-  height: 5vh;
+  height: 0vh;
 }
+
+.mobileErrorMessage{
+    color: #ff0000;
+    font-family: monospace;
+    font-size: 1vh;
+    opacity: 0;
+}
+.mobileErrorContainer{
+  height: 2vh;
+}
+
+
 
 @media only screen and (min-width: 768px) {
   /* For desktop: */
@@ -209,6 +220,22 @@
   .mobileNavBarAvoid{
     height: 0;
   }
+
+  .errorMessage{
+    color: #ff0000;
+    font-family: monospace;
+    font-size: 1vh;
+    opacity: 0;
+    width: 18vh;
+  }
+  .errorContainer{
+    height: 5vh;
+  }
+  .mobileErrorMessage{
+   font-size: 0vh;
+    opacity: 0;
+    width: 0vh;
+}
   
   
 
