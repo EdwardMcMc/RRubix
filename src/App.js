@@ -5,7 +5,8 @@ import Board from './components/Board';
 import ColorPicker from './components/ColorPicker'
 import Button from './components/Button';
 import ErrorMessage from './components/ErrorMessage';
-import Solution from './components/Solution'
+import Solution from './components/Solution';
+import FAQModal from './components/FAQModal';
 
 class App extends React.Component {
   constructor(props){
@@ -33,6 +34,7 @@ class App extends React.Component {
         yellowCorners:'',  
       },
       errorMessage:"",
+      isFAQ:false
     }
     this.myRef=React.createRef();
   }
@@ -285,9 +287,18 @@ class App extends React.Component {
           yellowCorners:'',  
         },
         errorMessage:"",
+        isFAQ:false,
 
     })
     console.log('reset');
+  }
+
+executeSolve(){
+    var that=this;
+    this.setState({errorMessage:'Loading...'});
+    setTimeout(function(){
+      that.Solve();
+  }, 1000);
   }
 
   async Solve(){
@@ -299,6 +310,7 @@ class App extends React.Component {
       await this.yellowEdges();
       await this.yellowCorners();
       await this.scrollToMyRef();
+      this.clearError.bind(this);
     }
     catch(e){
       console.log(e)
@@ -1356,16 +1368,19 @@ async yellowCorners(){
     return seq;
   }
 
+  toggle(){
+    this.setState({isFAQ:!this.state.isFAQ})
+  }
+
   render(){
     return (
       <div className="App">
         <header className="App-header">
           RRubix
-          <div className='Sub-App-Header'>
-            RRubix is still in development, sit tight!
-          </div>
+          <Button text='How To Use?' solve='FAQ' function={this.toggle.bind(this)}/>
         </header>
         <div className='App-body'>
+          <FAQModal isFAQ={this.state.isFAQ}toggle={this.toggle.bind(this)}></FAQModal>
           <table>
             <tbody>
               <tr className='boardAndButtons'>
@@ -1408,7 +1423,7 @@ async yellowCorners(){
                           <Button function={this.d.bind(this)} text="D'"/>
                         </td>
                       </tr>
-                      <tr><td colSpan='2'><Button function={this.Solve.bind(this)} text='Solve' solve='solve'/></td></tr>
+                      <tr><td colSpan='2'><Button function={this.executeSolve.bind(this)} text='Solve' solve='solve'/></td></tr>
                       <tr><td colSpan='2'><Button function={this.Reset.bind(this)} text='Reset' solve='solve'></Button></td></tr>
                       <tr><td className="errorContainer" >
                         <ErrorMessage isVisible={this.state.errorMessage!==""}ErrorMessage={this.state.errorMessage}className='errorMessage'/></td></tr>

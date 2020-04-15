@@ -115,7 +115,7 @@ class Solution extends React.Component{
                             <tbody>
                                 <tr >
                                     <td className='subHeadingImage'>
-                                        <center><img width='70%'height alt='Part 2 White Corners'src={whiteCorners}></img></center>
+                                        <center><img width='70%' alt='Part 2 White Corners'src={whiteCorners}></img></center>
                                     </td>
                                     <td className='subHeadingText'>
                                     Part 2: White Corners ({this.props.sequence.whiteCorners.length} steps)
