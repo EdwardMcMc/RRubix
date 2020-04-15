@@ -24,7 +24,6 @@ const FAQModal=({isFAQ,toggle})=>{
                 color:'white',
             }}
             className='FAQBox'
-            
             ><center>
                 <table>
                     <tbody>
@@ -32,7 +31,7 @@ const FAQModal=({isFAQ,toggle})=>{
                            
                                 <td colSpan='2' width='100%'>
                                     <center>
-                                    How To Use RRubix:
+                                        How To Use RRubix
                                     </center>
                                 </td>
                             
