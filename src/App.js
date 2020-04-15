@@ -260,6 +260,36 @@ class App extends React.Component {
     await this.D();
   }
 
+  async Reset(){
+    this.setState({
+     
+        board:[
+          [null,null,null,'g' ,'g' ,'g' ,null,null,null,null,null,null],
+          [null,null,null,'g' ,'Ng' ,'g' ,null,null,null,null,null,null],
+          [null,null,null,'g' ,'g' ,'g' ,null,null,null,null,null,null],
+      
+          ['r' ,'r' ,'r' ,'w' ,'w' ,'w' ,'o' ,'o' ,'o' ,'y' ,'y' ,'y' ],
+          ['r' ,'Nr' ,'r' ,'w' ,'Nw' ,'w' ,'o' ,'No' ,'o' ,'y' ,'Ny' ,'y' ],
+          ['r' ,'r' ,'r' ,'w' ,'w' ,'w' ,'o' ,'o' ,'o' ,'y' ,'y' ,'y' ],
+      
+          [null,null,null,'b' ,'b' ,'b' ,null,null,null,null,null,null],
+          [null,null,null,'b' ,'Nb' ,'b' ,null,null,null,null,null,null],
+          [null,null,null,'b' ,'b' ,'b' ,null,null,null,null,null,null],
+        ],
+        selectedColor:'w',
+        sequence:{
+          whiteCross:'',
+          whiteCorners:'',
+          middleEdges:'',
+          yellowCross:'',
+          yellowCorners:'',  
+        },
+        errorMessage:"",
+
+    })
+    console.log('reset');
+  }
+
   async Solve(){
     try{
       await this.verifyCube();
@@ -1379,6 +1409,7 @@ async yellowCorners(){
                         </td>
                       </tr>
                       <tr><td colSpan='2'><Button function={this.Solve.bind(this)} text='Solve' solve='solve'/></td></tr>
+                      <tr><td colSpan='2'><Button function={this.Reset.bind(this)} text='Reset' solve='solve'></Button></td></tr>
                       <tr><td className="errorContainer" >
                         <ErrorMessage isVisible={this.state.errorMessage!==""}ErrorMessage={this.state.errorMessage}className='errorMessage'/></td></tr>
                     </tbody>

@@ -25,7 +25,6 @@
 
 .App-body{
   background-color: #282c34;
-  /* max-height: 200vh; */
   min-height:90vh;
   width: 100vw;
   display: flex;
@@ -72,22 +71,22 @@
 
 .cg,.cw,.co,.cy,.cr,.cb{
   
-  width: 12vh;
-  height: 12vh;
-  border:0.5vh solid black;
-  border-radius: 3vw;
+  width: 6vh;
+  height: 8vh;
+  /* border:0.5vh solid black; */
+
 }
 .cug,.cuw,.cuo,.cuy,.cur,.cub{
-  width: 10vw;
-  height: 10vh;
-  border-radius: 3vw;
+  width: 6vh;
+  height: 6vh;
+
 }
 
 .button{
-  width: 4.5vh;
+  width: 5vh;
   height: 4.5vh;
-  border-radius: 0.5vh;
-  border:0.3vmin solid black;
+  
+  
   background:white;
   color: black;
   display: flex;
@@ -99,10 +98,10 @@
 }
 
 .solvebutton{
-    width: 4.5vh;
-    height: 4.5vh;
-    border-radius: 0.5vh;
-    border:0.3vmin solid black;
+    width: 5vh;
+    height: 5vh;
+    
+  
     background:green;
     color: black;
     display: flex;
@@ -124,9 +123,9 @@
 
 .buttonCell{
   white-space: nowrap;
-  overflow-x: auto;
-  border:0.1vmin solid white;
-  border-radius: 1vmin;
+  overflow-x: visible;
+ 
+  
 }
 
 .mobileNavBarAvoid{
@@ -188,15 +187,13 @@
 @media only screen and (min-width: 768px) {
   /* For desktop: */
   .cg,.cw,.co,.cy,.cr,.cb{
-    width: 10vh;
-    height: 10vh;
-    border:0.5vh solid black;
-    border-radius: 3vh;
+    width: 8vh;
+    height: 10vh  ;
   }
   .cug,.cuw,.cuo,.cuy,.cur,.cub{
-    width: 9vh;
-    height: 9vh;
-    border-radius: 3vh;
+    width: 8vh;
+    height: 8vh;
+    
   }
  
   .Sub-App-Header{
@@ -206,8 +203,8 @@
   .button{
     width: 8vh;
     height: 8vh;
-    border-radius: 0.5vh;
-    border:0.4vmin solid black;
+    
+   
     background:white;
     color: black;
     display: inline-flex;
@@ -221,8 +218,8 @@
   .solvebutton{
     width: 18vh;
     height: 8vh;
-    border-radius: 0.5vh;
-    border:0.4vmin solid black;
+    
+ 
     background:grey;
     color: black;
     display: inline-flex;
@@ -242,7 +239,7 @@
     padding-top: 2vmin;
   }
   .buttonCell{
-    border-radius: 1vmin;
+   
     border:0 solid white
     
   }
