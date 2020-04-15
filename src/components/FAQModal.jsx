@@ -24,6 +24,7 @@ const FAQModal=({isFAQ,toggle})=>{
                 color:'white',
             }}
             className='FAQBox'
+            
             ><center>
                 <table>
                     <tbody>

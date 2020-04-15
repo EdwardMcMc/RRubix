@@ -310,7 +310,8 @@
     font-size: 1.5vmin;
   }
   .FAQBox{
-    width:30%
+    width:30%;
+    padding:15px
   }
 
 }
