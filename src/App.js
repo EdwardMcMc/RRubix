@@ -1377,6 +1377,9 @@ async yellowCorners(){
       <div className="App">
         <header className="App-header">
           RRubix
+          <div className='Sub-App-Header'>
+            By Edward McKenzie-McHarg
+          </div>
           <Button text='How To Use?' solve='FAQ' function={this.toggle.bind(this)}/>
         </header>
         <div className='App-body'>
